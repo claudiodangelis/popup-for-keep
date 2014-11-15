@@ -1,0 +1,13 @@
+{
+    "manifest_version": 2,
+    "name": "Keep as a Popup",
+    "description": "Load Google Keep as a popup in the current window",
+    "version": "0.1.0",
+    "browser_action": {
+        "default_icon": "img/icon.png",
+        "default_title": "Keep as a popup",
+        "default_popup": "popup.html"
+    },
+
+    "permissions": ["webRequest", "webRequestBlocking", "https://keep.google.com/keep/"]
+}
