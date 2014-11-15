@@ -1,6 +1,8 @@
 html {
     min-width: 500px;
     min-height: 500px;
+    max-height: 500px;
+    max-width: 500px;
     margin: 0;
 }
 
@@ -10,11 +12,15 @@ body {
     background-color: rgba(0,0,0,.1);
     margin: 0;
     font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+}
+
+.view {
+    visibility: hidden;
+    display: none;
 }
 
 iframe {
-    visibility: hidden;
-    display: none;
     border: 0;
 }
 

@@ -7,7 +7,7 @@
         <title></title>
     </head>
     <body>
-        <div id="spinner-wrapper">
+        <div id="spinner-view" class="view">
             <div class="spinner">
                 <div class="double-bounce1"></div>
                 <div class="double-bounce2"></div>
@@ -16,8 +16,13 @@
                 <p>Contacting Google Keep&#0153;...</p>
             </div>
         </div>
-
-        <iframe id="keep-wrapper"></iframe>
+        <div id="notAuth-view" class="view">
+            <h1>Oops!</h1>
+            <p>It looks like you're not logged into your Google Account.</p>
+            <p>Log into your Google Account then come back :-)</p>
+            <button id="btn">Log in</button>
+        </div>
+        <iframe id="keep-view" class="view"></iframe>
         <script type="text/javascript" src="/js/main.js"></script>
     </body>
 </html>
