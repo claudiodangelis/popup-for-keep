@@ -1,10 +1,23 @@
 <html>
     <head>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400italic' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="/css/master.css" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="/css/spinner.css" media="screen" title="no title" charset="utf-8">
         <title></title>
     </head>
-    <script type="text/javascript" src="/js/main.js"></script>
-    <link rel="stylesheet" href="/css/master.css" media="screen" title="no title" charset="utf-8">
     <body>
-        <iframe src="https://keep.google.com/keep/" width="500" height="500"></iframe>
+        <div id="spinner-wrapper">
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+            <div id="label">
+                <p>Contacting Google Keep&#0153;...</p>
+            </div>
+        </div>
+
+        <iframe id="keep-wrapper"></iframe>
+        <script type="text/javascript" src="/js/main.js"></script>
     </body>
 </html>

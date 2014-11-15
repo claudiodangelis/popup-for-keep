@@ -1,7 +1,28 @@
-body {
+html {
+    min-width: 500px;
+    min-height: 500px;
     margin: 0;
 }
 
+body {
+    max-height: 500px;
+    max-width: 500px;
+    background-color: rgba(0,0,0,.1);
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
 iframe {
+    visibility: hidden;
+    display: none;
     border: 0;
+}
+
+#label {
+    color: #333;
+    width: 250px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: large;
 }
