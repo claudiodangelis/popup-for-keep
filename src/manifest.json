@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
-    "name": "Keep as a Popup",
-    "description": "Load Google Keep as a popup in the current window",
+    "name": "Popup for Keep™",
+    "description": "Load Google Keep™ in a popup from the current tab in Google Chrome™.",
     "version": "0.3.0",
     "browser_action": {
         "default_icon": "img/icon.png",
