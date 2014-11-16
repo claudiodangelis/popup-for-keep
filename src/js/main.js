@@ -1,4 +1,5 @@
 /* Top level objects */
+var GOOGLE_ACCOUNT_URL = "https://accounts.google.com/ServiceLogin";
 // iframe that will wrap Keep
 var keepView = document.querySelector("#keep-view");
 // Spinner
@@ -30,7 +31,7 @@ chrome.webRequest.onHeadersReceived.addListener(
         var toRemove = false;
         for (var i=headers.length-1; i>=0; --i) {
             var header = headers[i].name.toLowerCase();
-            if (header == "location" && headers[i].value.indexOf("https://accounts.google.com/ServiceLogin") == 0) {
+            if (header == "location" && headers[i].value.indexOf(GOOGLE_ACCOUNT_URL) == 0) {
                 // Removing the iframe
                 keepView.remove();
                 // Showing the not-auth view
@@ -52,6 +53,11 @@ chrome.webRequest.onHeadersReceived.addListener(
     },
     ['blocking', 'responseHeaders']
 );
+
+// Bind the login button
+document.querySelector("#login-btn").onclick = function (e) {
+    chrome.tabs.create({url: GOOGLE_ACCOUNT_URL});
+};
 
 function showView(view) {
     for (var i = 0; i < views.length; i++) {
