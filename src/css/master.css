@@ -32,3 +32,25 @@ iframe {
     margin-right: auto;
     font-size: large;
 }
+
+#notAuth-view {
+    text-align: center;
+    color: #333;
+    font-size: large;
+    padding: 100px;
+}
+
+#login-btn {
+    color: white;
+    font-size: large;
+    border-radius: 3px;
+    padding: 15px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background: #1e90ff;
+    border: 0;
+}
+
+#login-btn:hover {
+    border: 1px solid white;
+}

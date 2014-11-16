@@ -57,7 +57,7 @@ function showView(view) {
     for (var i = 0; i < views.length; i++) {
         if (view == views[i]) {
             views[i].style.visibility = "visible";
-            views[i].style.display = "inline";
+            views[i].style.display = "block";
         } else {
             views[i].style.visibility = "hidden";
             views[i].style.display = "none";
