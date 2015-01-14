@@ -2,6 +2,7 @@
 
 Load Google Keep™ in a popup from the current tab in Google Chrome™.
 
+Install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/popup-for-keep/fhcmhglnohogibbbpbodmjeggpdlboop).
 
 ![Screen4](screenshots/screenshot-04.png)
 
