@@ -54,3 +54,18 @@ iframe {
 #login-btn:hover {
     border: 1px solid white;
 }
+button#btn-open {
+    visibility: hidden;
+    display: none;
+    color: #666;
+    width: 100%;
+    margin-left: auto;
+    margin-left: auto;
+    border: 0;
+    padding-top: 3px;
+    font-family: 'Roboto', sans-serif;
+}
+button#btn-open:hover {
+    color: #333;
+    cursor: pointer;
+}

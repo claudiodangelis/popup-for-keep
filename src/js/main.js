@@ -6,7 +6,8 @@ var keepView = document.querySelector("#keep-view");
 var spinnerView = document.querySelector("#spinner-view");
 // Not auth
 var notAuthView = document.querySelector("#notAuth-view");
-
+// Detach button
+var detachButton = document.querySelector("button#btn-open");
 // Views
 var views = [keepView, spinnerView, notAuthView];
 
@@ -17,12 +18,26 @@ showView(spinnerView);
 keepView.onload = function () {
     // Hide the spinnerView
     showView(keepView);
+    detachButton.style.visibility = "visible";
+    detachButton.style.display = "block";
 };
 
 keepView.width = 500;
 keepView.height = 500;
 keepView.src = "https://keep.google.com/keep";
-
+detachButton.addEventListener("click", function (e) {
+    var left = e.screenX - 250;
+    var top = e.screenY - 10;
+    chrome.windows.create({
+        url: "https://keep.google.com/keep",
+        width: 500,
+        height: 500,
+        left: left,
+        top: top,
+        focused: true,
+        type: "popup"
+    });
+});
 // We use this to prevent the "Refused to display document because display
 // forbidden by X-Frame-Options" issue
 chrome.webRequest.onHeadersReceived.addListener(
