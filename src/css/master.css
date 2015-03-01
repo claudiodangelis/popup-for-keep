@@ -54,7 +54,8 @@ iframe {
 #login-btn:hover {
     border: 1px solid white;
 }
-button#btn-open {
+div#toolbar {
+    text-align: center;
     visibility: hidden;
     display: none;
     color: #666;
@@ -72,4 +73,10 @@ button#btn-open:hover {
 #spinner-view {
     margin-top: 50px;
     text-align: center;
+}
+.clickable {
+    cursor: pointer;
+}
+.toolbar-item {
+    margin-left: 15px;
 }

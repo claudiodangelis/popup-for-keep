@@ -6,8 +6,10 @@ var keepView = document.querySelector("#keep-view");
 var spinnerView = document.querySelector("#spinner-view");
 // Not auth
 var notAuthView = document.querySelector("#notAuth-view");
+// Toolbar
+var toolbar = document.querySelector("div#toolbar");
 // Detach button
-var detachButton = document.querySelector("button#btn-open");
+var buttonDetach = document.querySelector("span#btn-detach");
 // Views
 var views = [keepView, spinnerView, notAuthView];
 
@@ -18,14 +20,13 @@ showView(spinnerView);
 keepView.onload = function () {
     // Hide the spinnerView
     showView(keepView);
-    detachButton.style.visibility = "visible";
-    detachButton.style.display = "block";
+    toolbar.style.visibility = "visible";
+    toolbar.style.display = "block";
 };
-
 keepView.width = 500;
 keepView.height = 500;
 keepView.src = "https://keep.google.com/keep";
-detachButton.addEventListener("click", function (e) {
+buttonDetach.addEventListener("click", function (e) {
     var left = e.clientX + e.view.screenLeft - 250;
     var top = e.screenY - 10;
     chrome.windows.create({
