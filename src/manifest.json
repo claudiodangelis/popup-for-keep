@@ -4,7 +4,6 @@
     "description": "Load Google Keep™ in a popup from the current tab in Google Chrome™.",
     "version": "0.4.0",
     "author": "Claudio d'Angelis",
-    "default_locale": "en",
     "homepage_url": "https://claudiodangelis.com/about",
     "browser_action": {
         "default_icon": {
