@@ -69,3 +69,7 @@ button#btn-open:hover {
     color: #333;
     cursor: pointer;
 }
+#spinner-view {
+    margin-top: 50px;
+    text-align: center;
+}
