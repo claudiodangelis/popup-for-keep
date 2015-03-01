@@ -26,7 +26,7 @@ keepView.width = 500;
 keepView.height = 500;
 keepView.src = "https://keep.google.com/keep";
 detachButton.addEventListener("click", function (e) {
-    var left = e.screenX - 250;
+    var left = e.clientX + e.view.screenLeft - 250;
     var top = e.screenY - 10;
     chrome.windows.create({
         url: "https://keep.google.com/keep",
