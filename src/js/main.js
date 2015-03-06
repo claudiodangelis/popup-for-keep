@@ -21,9 +21,7 @@ var toolbar = document.querySelector("div#toolbar");
 var buttonDetach = document.querySelector("span#btn-detach");
 // Views
 var views = [keepView, spinnerView, notAuthView];
-
 showView(spinnerView);
-
 // We handle the frame here
 // When it's loaded:
 keepView.onload = function () {
@@ -63,17 +61,11 @@ chrome.webRequest.onHeadersReceived.addListener(
                 showView(notAuthView);
                 // Canceling the request
                 return {cancel: true};
-
             }
             if (header == 'x-frame-options' || header == 'frame-options') {
                 headers.splice(i, 1);
             }
         }
-
-
-
-
-
         return {responseHeaders: headers};
     },
     {
@@ -82,12 +74,10 @@ chrome.webRequest.onHeadersReceived.addListener(
     },
     ['blocking', 'responseHeaders']
 );
-
 // Bind the login button
 document.querySelector("#login-btn").onclick = function (e) {
     chrome.tabs.create({url: GOOGLE_ACCOUNT_URL});
 };
-
 function showView(view) {
     for (var i = 0; i < views.length; i++) {
         if (view == views[i]) {
@@ -99,3 +89,4 @@ function showView(view) {
         }
     }
 }
+
