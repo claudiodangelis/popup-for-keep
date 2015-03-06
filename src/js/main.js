@@ -70,6 +70,10 @@ chrome.webRequest.onHeadersReceived.addListener(
             }
         }
 
+
+
+
+
         return {responseHeaders: headers};
     },
     {
