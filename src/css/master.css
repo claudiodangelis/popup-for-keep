@@ -54,7 +54,7 @@ iframe {
 #login-btn:hover {
     border: 1px solid white;
 }
-div#toolbar {
+#toolbar-view {
     text-align: center;
     visibility: hidden;
     display: none;
