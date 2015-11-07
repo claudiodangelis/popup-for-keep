@@ -1,20 +1,10 @@
 var main = function () {
-    // Google Analytics tracking code
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-60445871-1']);
-    _gaq.push(['_trackPageview']);
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = 'https://ssl.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-    // Detach button
-    var buttonDetach = document.querySelector("span#btn-detach");
     Views.show(Views.SPINNER);
     Views.setAttributes(Views.KEEP, {
         width: 500, height: 500, src: GOOGLE_KEEP_URL
     });
-    buttonDetach.addEventListener("click", function (e) {
+    var buttonDetach = document.querySelector('span#btn-detach');
+    buttonDetach.addEventListener('click', function (e) {
         var left = e.clientX + e.view.screenLeft - 250;
         var top = e.screenY - 10;
         chrome.windows.create({
@@ -24,26 +14,30 @@ var main = function () {
             left: left,
             top: top,
             focused: true,
-            type: "popup"
+            type: 'popup'
         });
     });
-    // We use this to prevent the "Refused to display document because display
-    // forbidden by X-Frame-Options" issue
+    document.querySelector('#login-btn').onclick = function (e) {
+        chrome.tabs.create({url: GOOGLE_ACCOUNT_URL});
+    };
+    var isGoogleAccountUrl = function (header) {
+        return (header.value.indexOf(GOOGLE_ACCOUNT_URL) === 0);
+    };
+    // We use this to prevent the 'Refused to display document because display
+    // forbidden by X-Frame-Options' issue
     chrome.webRequest.onHeadersReceived.addListener(
         function(req) {
             var headers = req.responseHeaders;
-            var toRemove = false;
             if (req.url === GOOGLE_KEEP_URL) {
                 Views.show(Views.KEEP);
                 Views.add(Views.TOOLBAR);
             }
-            for (var i=headers.length-1; i>=0; --i) {
+            for (var i = headers.length - 1; i >= 0; --i) {
                 var header = headers[i].name.toLowerCase();
-                if (header == "location" && headers[i].value.indexOf(GOOGLE_ACCOUNT_URL) == 0) {
-                    // Showing the not-auth view
+                if (header == 'location' && isGoogleAccountUrl(headers[i])) {
                     Views.show(Views.NOTAUTH);
                     // Canceling the request
-                    return {cancel: true};
+                    return { cancel: true };
                 }
                 if (header == 'x-frame-options' || header == 'frame-options') {
                     headers.splice(i, 1);
@@ -51,15 +45,9 @@ var main = function () {
             }
             return {responseHeaders: headers};
         },
-        {
-            urls: [ '*://*/*' ],
-            types: [ 'sub_frame' ]
-        },
+        { urls: [ '*://*/*' ], types: [ 'sub_frame' ] },
         ['blocking', 'responseHeaders']
     );
-    // Bind the login button
-    document.querySelector("#login-btn").onclick = function (e) {
-        chrome.tabs.create({url: GOOGLE_ACCOUNT_URL});
-    };
-}
+};
+Analytics.init();
 window.onload = main;
