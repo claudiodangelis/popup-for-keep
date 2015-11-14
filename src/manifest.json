@@ -23,10 +23,17 @@
         "scripts": [ "js/background.js" ],
         "persistent": true
     },
+    "content_scripts": [
+        {
+            "matches": ["https://keep.google.com/keep?create_note"],
+            "js": [ "js/create_note.js" ],
+            "run_at": "document_end"
+        }
+    ],
     "permissions": [
+        "contextMenus",
         "webRequest",
         "webRequestBlocking",
         "https://keep.google.com/keep/"
-     ],
-     "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
+     ]
 }

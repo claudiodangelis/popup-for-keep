@@ -5,13 +5,15 @@
             rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/css/master.css" media="screen"
             title="no title" charset="utf-8">
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <title>Popup For Keep&#0153;</title>
     </head>
     <body>
         <div id="toolbar-view">
             <span id="btn-detach" class="clickable toolbar-item">
-                <i class="fa fa-external-link"></i> Detach
+                <i class="material-icons">launch</i>
+            </span>
+            <span id="btn-info" class="clickable toolbar-item">
+                <i class="material-icons">info</i>
             </span>
         </div>
         <div id="spinner-view" class="view">
@@ -26,7 +28,16 @@
             <button id="login-btn">Log In</button>
         </div>
         <iframe id="keep-view" class="view"></iframe>
-        <script type="text/javascript" src="/js/analytics.js"></script>
+        <div id="info-view">
+            <span id="btn-close-info" class="clickable toolbar-item right">
+                <i class="material-icons">close</i>
+            </span>
+            <h1>Popup For Keep&#0153;</h1>
+            <p>by <a target="_blank" href="https://claudiodangelis.com">Claudio d'Angelis</a></p>
+            <p>Version: <span id="version"></span></p>
+            <p>Source code: <a target="_blank" href="https://github.com/claudiodangelis/google-keep-as-popup">github.com/claudiodangelis/google-keep-as-popup</a></p>
+            <p><a target="_blank" href="https://github.com/claudiodangelis/google-keep-as-popup/issues/new">Report a problem</a></p>
+        </div>
         <script type="text/javascript" src="/js/urls.js"></script>
         <script type="text/javascript" src="/js/views.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
