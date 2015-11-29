@@ -3,6 +3,7 @@ var Views = {
     SPINNER: 'spinner',
     NOTAUTH: 'notAuth',
     TOOLBAR: 'toolbar',
+    INFO: 'info',
     setAttributes: function (view, properties) {
         var node = document.getElementById(view + '-view');
         Object.keys(properties).forEach(function (key) {
@@ -17,12 +18,17 @@ var Views = {
         node.style.visibility = 'visible';
         node.style.display = 'block';
     },
+    hide: function (view) {
+        var node = document.getElementById(view + '-view');
+        node.style.visibility = 'hidden';
+        node.style.display = 'none';
+    },
     add: function (view) {
         var node = document.getElementById(view + '-view');
         node.style.visibility = 'visible';
         node.style.display = 'block';
     },
-    hide: function (view) {
+    remove: function (view) {
         var node = document.getElementById(view + '-view');
         node.style.visibility = 'hidden';
         node.style.display = 'none';

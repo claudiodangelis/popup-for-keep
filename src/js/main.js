@@ -3,7 +3,7 @@ var main = function () {
     Views.setAttributes(Views.KEEP, {
         width: 500, height: 500, src: GOOGLE_KEEP_URL
     });
-    var buttonDetach = document.querySelector('span#btn-detach');
+    var buttonDetach = document.getElementById('btn-detach');
     buttonDetach.addEventListener('click', function (e) {
         var left = e.clientX + e.view.screenLeft - 250;
         var top = e.screenY - 10;
@@ -17,9 +17,20 @@ var main = function () {
             type: 'popup'
         });
     });
-    document.querySelector('#login-btn').onclick = function (e) {
+    var buttonInfo = document.getElementById('btn-info');
+    buttonInfo.addEventListener('click', function (_) {
+        Views.add(Views.INFO);
+    });
+    var buttonCloseInfo = document.getElementById('btn-close-info');
+    buttonCloseInfo.addEventListener('click', function (_) {
+        Views.remove(Views.INFO);
+    });
+    document.getElementById('login-btn').onclick = function (_) {
         chrome.tabs.create({url: GOOGLE_ACCOUNT_URL});
     };
+    document.getElementById(
+        'version'
+    ).textContent = chrome.runtime.getManifest().version;
     var isGoogleAccountUrl = function (header) {
         return (header.value.indexOf(GOOGLE_ACCOUNT_URL) === 0);
     };
@@ -49,5 +60,4 @@ var main = function () {
         ['blocking', 'responseHeaders']
     );
 };
-Analytics.init();
 window.onload = main;

@@ -6,6 +6,11 @@ Install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/pop
 
 ![Screen4](screenshots/screenshot-04.png)
 
+There's more: while surfing the web, you can add the current page or a text selection to Google Keep, just open the right-click menu:
+
+![Screen5](screenshots/screenshot-05-add-page.png)
+
+![Screen6](screenshots/screenshot-06-add-selection.png)
 
 # Author(s)
 

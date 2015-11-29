@@ -1,3 +1,27 @@
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'),
+         local('MaterialIcons-Regular'),
+         url(MaterialIcons-Regular.woff) format('woff2')
+}
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  text-rendering: optimizeLegibility;
+}
 html {
     min-width: 500px;
     min-height: 500px;
@@ -50,18 +74,33 @@ iframe {
     background: #1e90ff;
     border: 0;
 }
-
+#info-view {
+    visibility: hidden;
+    display: none;
+    width: 85%;
+    height: 70%;
+    position: absolute;
+    z-index: 9999;
+    background-color: #EDEDED;
+    border: 1px solid #E2E2E2;
+    top: 33px;
+    box-shadow: 5px 5px 9px 0px rgba(50, 50, 50, 0.77);
+    left: 50%;
+    margin-left: -45%;
+    padding-top: 25px;
+    padding-left: 10px;
+}
 #login-btn:hover {
     border: 1px solid white;
 }
 #toolbar-view {
-    text-align: center;
+    text-align: right;
     visibility: hidden;
     display: none;
     color: #666;
     width: 100%;
     margin-left: auto;
-    margin-left: auto;
+    margin-right: auto;
     border: 0;
     padding-top: 3px;
     font-family: 'Roboto', sans-serif;
@@ -78,5 +117,5 @@ button#btn-open:hover {
     cursor: pointer;
 }
 .toolbar-item {
-    margin-left: 15px;
+    margin-left: 5px;
 }
