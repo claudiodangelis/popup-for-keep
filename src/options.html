@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Options page</title>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/materialize/css/materialize.min.css">
+    <style>
+        footer {
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Options</h1>
+        <h5>Popup for Keep&#0153;</h5>
+        <hr>
+        <form action="#">
+            <p><b>Icon</b></p>
+            <p>Icon used on the menu bar.</p>
+            <p>
+                <input name="group-icon" type="radio" id="icon_bichrome" value="icon_bichrome"/>
+                <label for="icon_bichrome">
+                    <img src="img/icon-32.png" alt="An icon with two colors, white and orange" />
+                </label>
+                <input name="group-icon" type="radio" id="icon_monochrome" value="icon_monochrome"/>
+                <label for="icon_monochrome">
+                    <img src="img/mono-icon-32.png" alt="An icon with one color (grey)" />
+                </label>
+            </p>
+        </form>
+        <hr/>
+        <p><b>Launch</b></p>
+        <p>Choose how to launch the popup. </p>
+        <div class="input-field col s12">
+            <select>
+                <option selected value="popup">Popup</option>
+                <option disabled value="popup">(coming soon)</option>
+            </select>
+        </div>
+        <footer>
+            <p>
+                <b>Credits</b>
+                <a href="http://materializecss.com">Materialize</a>,
+                <a href="https://jquery.com">jQuery</a>
+            </p>
+        </footer>
+    </div>
+    <script type="text/javascript" src="vendor/jquery/jquery-2.2.0.min.js"></script>
+    <script src="vendor/materialize/js/materialize.min.js"></script>
+    <script src="js/common.js" type="text/javascript"></script>
+    <script src="js/settings.js" type="text/javascript"></script>
+    <script src="js/options.js" type="text/javascript"></script>
+</body>
+</html>

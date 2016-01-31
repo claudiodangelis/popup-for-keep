@@ -17,6 +17,12 @@ var main = function () {
             type: 'popup'
         });
     });
+    var buttonSettings = document.getElementById('btn-settings');
+    buttonSettings.addEventListener('click', function (_) {
+        window.open(
+            chrome.extension.getURL('options.html')
+        );
+    });
     var buttonInfo = document.getElementById('btn-info');
     buttonInfo.addEventListener('click', function (_) {
         Views.add(Views.INFO);
