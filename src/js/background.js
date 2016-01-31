@@ -22,11 +22,17 @@ var addToKeep = function (info, tab) {
         });
     });
 };
-// Create conxt menus
+// Create context menus
 ['page', 'selection'].forEach(function (context) {
     chrome.contextMenus.create({
         'title': ['Add', context, 'to Google Keep'].join(' '),
         'contexts': [ context ],
         'onclick': addToKeep
+    });
+});
+// Load settings
+Settings.load(function (settings) {
+    chrome.browserAction.setIcon({
+        path: paths[settings.icon]
     });
 });
