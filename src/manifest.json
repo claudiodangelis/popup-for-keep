@@ -26,7 +26,7 @@
     "options_page": "options.html",
     "content_scripts": [
         {
-            "matches": ["https://keep.google.com/keep?create_note"],
+            "matches": ["https://keep.google.com/*?create_note"],
             "js": [ "js/create_note.js" ],
             "run_at": "document_end"
         }
