@@ -7,10 +7,10 @@ var DOM = {
 };
 chrome.runtime.onMessage.addListener(function (note, _, sendResponse) {
     var main, title, text, titleWrapper, textWrapper;
-    main = document.querySelector(DOM.main);
-    main.click();
-    textWrapper = document.querySelector(DOM.textWrapper);
-    textWrapper.textContent = '';
+    main = document.querySelector(DOM.main)
+        .click();
+    textWrapper = document.querySelector(DOM.textWrapper)
+        .textContent = '';
     title = document.querySelector(DOM.title);
     title.click();
     title.textContent = note.title;
@@ -18,8 +18,8 @@ chrome.runtime.onMessage.addListener(function (note, _, sendResponse) {
     text.textContent = note.text;
     text.click();
     title.focus();
-    titleWrapper = document.querySelector(DOM.titleWrapper);
-    titleWrapper.textContent = '';
+    titleWrapper = document.querySelector(DOM.titleWrapper)
+        .textContent = '';
     title.blur();
     sendResponse({ status: 'done' });
     history.pushState(null, null, '/keep');
