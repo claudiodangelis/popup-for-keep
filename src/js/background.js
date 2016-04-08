@@ -14,7 +14,7 @@ var addToKeep = function (info, tab) {
                 chrome.tabs.sendMessage(target.id, {
                     title: title, text:text
                 }, {}, function (response) {
-                    if (response.status === 'done') {
+                    if (typeof response !== 'undefined' && response.status === 'done') {
                         chrome.tabs.onUpdated.removeListener(listener);
                     }
                 });
