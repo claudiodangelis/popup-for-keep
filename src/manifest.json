@@ -20,7 +20,7 @@
         "128": "img/icon-128.png"
     },
     "background": {
-        "scripts": [ "js/common.js", "js/settings.js", "js/background.js" ],
+        "scripts": [ "js/common.js", "js/settings.js", "js/background.js", "js/account.js" ],
         "persistent": true
     },
     "options_page": "options.html",
