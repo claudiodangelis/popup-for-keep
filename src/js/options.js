@@ -19,5 +19,29 @@ $(document).ready(function() {
                 }
             });
         });
+        // Populate accounts
+        console.log(settings.accounts);
+        settings.accounts.list.forEach(function (account, index) {
+            var input = $('<input>').attr({
+                type: 'radio', name: 'group-icon', id: 'account-' + index
+            });
+            if (account.index === settings.accounts.lastUsed) {
+                input.prop('checked', true);
+            }
+            var label = $('<label>').attr({
+                'for': 'account-' + index
+            });
+            var img = $('<img>').attr({
+                src: account.image,
+                height: 64,
+                width: 64
+            });
+            // Pack
+            label.append(img);
+            $('#accounts-container').append(input, label);
+        });
+        if (location.search === '?modal-choose-user') {
+            $('#modal1').openModal();
+        }
     });
 });

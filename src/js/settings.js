@@ -4,7 +4,10 @@ var Settings = {
             var retValue = data.settings;
             if (typeof retValue === 'undefined') {
                 retValue = {
-                    icon: 'icon_bichrome'
+                    icon: 'icon_bichrome',
+                    accounts: {
+                        lastChecked: 0
+                    }
                 };
             }
             callback(retValue);

@@ -31,8 +31,38 @@ var addToKeep = function (info, tab) {
     });
 });
 // Load settings
-Settings.load(function (settings) {
+var settings;
+Settings.load(function (data) {
+    settings = data;
     chrome.browserAction.setIcon({
         path: paths[settings.icon]
     });
+    if (elapsedSince(settings.accounts.lastChecked) > (2 * HOURS)) {
+        Account.getAll(function (err, accounts) {
+            settings.accounts.lastChecked = new Date().getTime();
+            if (err) {
+                // No accounts found
+                accounts = [];
+                accounts.push({ email: 'unkown', name: 'unkown', image: null });
+                // Force check next time
+                settings.accounts.lastChecked = 0;
+            }
+            settings.accounts.list = accounts;
+            if (typeof settings.accounts.lastUsed === 'undefined') {
+                // Set the first found as current user, but let user choose if
+                // there are more than one
+                settings.accounts.lastUsed = 0;
+                if (settings.accounts.list.length > 1) {
+                    // Open options page
+                    console.debug('Opening options page');
+                    chrome.tabs.create({
+                        url: 'options.html' + '?modal-choose-user'
+                    });
+                }
+            }
+            Settings.save(settings, function (status) {
+                console.debug('Saving settings', status);
+            });
+        });
+    }
 });

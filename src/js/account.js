@@ -52,7 +52,7 @@ var Account = {
                             return discoverNext();
                         } else {
                             // Not found
-                            return callback(users);
+                            return callback(null, users);
                         }
                     }
                 }
