@@ -27,13 +27,13 @@ var main = function (settings) {
         });
     });
     var buttonSettings = document.getElementById('btn-settings');
-    buttonSettings.addEventListener('click', function (_) {
+    buttonSettings.addEventListener('click', function () {
         window.open(
             chrome.extension.getURL('options.html')
         );
     });
     var buttonInfo = document.getElementById('btn-info');
-    buttonInfo.addEventListener('click', function (_) {
+    buttonInfo.addEventListener('click', function () {
         Views.add(Views.INFO);
     });
     var buttonAccount = document.getElementById('img-account');
@@ -42,10 +42,10 @@ var main = function (settings) {
         window.open(chrome.extension.getURL('options.html'));
     });
     var buttonCloseInfo = document.getElementById('btn-close-info');
-    buttonCloseInfo.addEventListener('click', function (_) {
+    buttonCloseInfo.addEventListener('click', function () {
         Views.remove(Views.INFO);
     });
-    document.getElementById('login-btn').onclick = function (_) {
+    document.getElementById('login-btn').onclick = function () {
         chrome.tabs.create({url: GOOGLE_ACCOUNT_URL});
     };
     document.getElementById(

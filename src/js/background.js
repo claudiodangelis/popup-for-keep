@@ -38,6 +38,7 @@ Settings.load(function (data) {
         path: paths[settings.icon]
     });
     settings.accounts.lastChecked = 0;
+    // TODO: Let user choose time between accounts discovery
     if (elapsedSince(settings.accounts.lastChecked) > (2 * HOURS)) {
         Account.getAll(function (err, accounts) {
             settings.accounts.lastChecked = new Date().getTime();
