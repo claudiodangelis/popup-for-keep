@@ -60,6 +60,9 @@ var addToKeep = function (info, tab) {
     } else {
         text = [info.selectionText, tab.url].join('\n\n');
     }
+    if (typeof settings.accounts === 'undefined') {
+        settings.accounts = {};
+    }
     var postfix = settings.accounts.lastUsed || '0';
     chrome.tabs.create({
         url: 'https://keep.google.com/u/' + postfix + '/?create_note'
