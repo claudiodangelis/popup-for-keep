@@ -1,14 +1,23 @@
-var main = function () {
+var main = function (settings) {
+    if (typeof settings !== 'object') {
+        console.error('There was a problem requesting settings');
+    }
+    if (typeof settings.accounts === 'undefined') {
+        settings.accounts = {
+            lastUsed: 0
+        };
+    }
+    var postfix = 'u/' + settings.accounts.lastUsed + '/';
     Views.show(Views.SPINNER);
     Views.setAttributes(Views.KEEP, {
-        width: 500, height: 500, src: GOOGLE_KEEP_URL
+        width: 500, height: 500, src: GOOGLE_KEEP_URL + postfix
     });
     var buttonDetach = document.getElementById('btn-detach');
     buttonDetach.addEventListener('click', function (e) {
         var left = e.clientX + e.view.screenLeft - 250;
         var top = e.screenY - 10;
         chrome.windows.create({
-            url: GOOGLE_KEEP_URL,
+            url: GOOGLE_KEEP_URL + postfix,
             width: 500,
             height: 500,
             left: left,
@@ -18,20 +27,25 @@ var main = function () {
         });
     });
     var buttonSettings = document.getElementById('btn-settings');
-    buttonSettings.addEventListener('click', function (_) {
+    buttonSettings.addEventListener('click', function () {
         window.open(
             chrome.extension.getURL('options.html')
         );
     });
     var buttonInfo = document.getElementById('btn-info');
-    buttonInfo.addEventListener('click', function (_) {
+    buttonInfo.addEventListener('click', function () {
         Views.add(Views.INFO);
     });
+    var buttonAccount = document.getElementById('img-account');
+    buttonAccount.src = settings.accounts.list[settings.accounts.lastUsed].image;
+    buttonAccount.addEventListener('click', function () {
+        window.open(chrome.extension.getURL('options.html'));
+    });
     var buttonCloseInfo = document.getElementById('btn-close-info');
-    buttonCloseInfo.addEventListener('click', function (_) {
+    buttonCloseInfo.addEventListener('click', function () {
         Views.remove(Views.INFO);
     });
-    document.getElementById('login-btn').onclick = function (_) {
+    document.getElementById('login-btn').onclick = function () {
         chrome.tabs.create({url: GOOGLE_ACCOUNT_URL});
     };
     document.getElementById(
@@ -45,7 +59,7 @@ var main = function () {
     chrome.webRequest.onHeadersReceived.addListener(
         function(req) {
             var headers = req.responseHeaders;
-            if (req.url === GOOGLE_KEEP_URL) {
+            if (req.url === GOOGLE_KEEP_URL + postfix) {
                 Views.show(Views.KEEP);
                 Views.add(Views.TOOLBAR);
             }
@@ -66,4 +80,8 @@ var main = function () {
         ['blocking', 'responseHeaders']
     );
 };
-window.onload = main;
+window.onload = function () {
+    chrome.runtime.sendMessage({action: 'get-settings'}, function (settings) {
+        main(settings);
+    });
+};

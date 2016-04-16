@@ -12,10 +12,27 @@
     </style>
 </head>
 <body>
+    <!-- Modal Structure -->
+    <div id="multiple-account-modal" class="modal" style="width: 450px">
+        <div class="modal-content">
+            <h5>Choose your account</h5>
+            <p>
+                It looks like you're using <b>multiple accounts</b> on Google Keep&#0153;.<br/>
+                Use this page to choose the account you want to use in the popup.
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Got it!</a>
+        </div>
+    </div>
     <div class="container">
-        <h1>Options</h1>
+        <h3>Options</h3>
         <h5>Popup for Keep&#0153;</h5>
         <hr>
+        <form action="#" id="accounts-container">
+            <p><b>Accounts</b></p>
+            <p>Choose the Google account you want to use the <b>popup</b> with.<br/>This account will be used for the <b>"Add page/selection"</b> feature as well.</p>
+        </form>
         <form action="#">
             <p><b>Icon</b></p>
             <p>Icon used on the menu bar.</p>
@@ -42,10 +59,16 @@
         <p>
             <b>Feedback</b>
         </p>
-        <p>Do you have improvements to suggest, features to add, or you spotted a bug? Please make sure to let me know! You can open a support ticket from the <a href="https://chrome.google.com/webstore/detail/popup-for-keep/fhcmhglnohogibbbpbodmjeggpdlboop/support">Chrome Web Store</a> or an <a href="https://github.com/claudiodangelis/popup-for-keep">issue on GitHub</a>.</p>
+        <p>Do you have improvements to suggest, features to add, or you spotted a bug? Please make sure to <b>let me know!</b> You can open a support ticket from the <a href="https://chrome.google.com/webstore/detail/popup-for-keep/fhcmhglnohogibbbpbodmjeggpdlboop/support">Chrome Web Store</a> or an <a href="https://github.com/claudiodangelis/popup-for-keep">issue on GitHub</a>.</p>
+        <p><a href="https://twitter.com/intent/tweet?text=Load%20Google%20Keep%E2%84%A2%20in%20a%20popup%20or%20add%20pages%20as%20notes%20with%20this%20Chrome%20extension%20by%20%40daw985%20%2F%2F%20Popup%20For%20Keep%E2%84%A2&url=https%3A%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Fpopup-for-keep%2Ffhcmhglnohogibbbpbodmjeggpdlboop"><img src="/img/icon-twitter.png" alt="Twitter icon" />Tweet!</a></p>
         <footer>
             <p>
                 <b>Author, news and updates</b><br/>
+                <a href="https://telegram.me/popupforkeep"><img src="/img/icon-telegram.png" /></a>
+                <a href="https://twitter.com/daw985"><img src="/img/icon-twitter.png" /></a>
+                <a href="https://github.com/claudiodangelis/popup-for-keep"><img src="/img/icon-github.png" /></a>
+                <a href="https://google.com/+claudiodangelis"><img src="/img/icon-googleplus.png" /></a>
+                <br/>
                 Claudio d'Angelis, <a href="https://twitter.com/daw985">Twitter</a>, <a href="https://github.com/claudiodangelis">GitHub</a>, <a href="https://google.com/+claudiodangelis">Google+</a><br/>
                 Telegram channel <a href="https://telegram.me/popupforkeep">@PopupForKeep</a><br/>
                 Source code at <a href="https://github.com/claudiodangelis/popup-for-keep">GitHub</a>
@@ -53,7 +76,7 @@
             <p>
                 <b>Credits</b>
                 <a href="http://materializecss.com">Materialize</a>,
-                <a href="https://jquery.com">jQuery</a>
+                <a href="https://jquery.com">jQuery</a>. All logos are registered trademarks of their respective owners.
             </p>
             <p>
                 <b>License</b> <a href="https://github.com/claudiodangelis/popup-for-keep/blob/master/LICENSE">Apache License, Version 2.0</a>
