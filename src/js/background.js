@@ -66,3 +66,16 @@ Settings.load(function (data) {
         });
     }
 });
+// Listen for messages
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (sender === null) {
+        console.error('null sender');
+    }
+    if (request.action === 'update-settings') {
+        settings = request.settings;
+        sendResponse();
+    } else if (request.action === 'get-settings') {
+        sendResponse(settings);
+    }
+    return true;
+});
