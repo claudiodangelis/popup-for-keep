@@ -37,6 +37,7 @@ Settings.load(function (data) {
     chrome.browserAction.setIcon({
         path: paths[settings.icon]
     });
+    settings.accounts.lastChecked = 0;
     if (elapsedSince(settings.accounts.lastChecked) > (2 * HOURS)) {
         Account.getAll(function (err, accounts) {
             settings.accounts.lastChecked = new Date().getTime();

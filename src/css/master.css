@@ -119,3 +119,7 @@ button#btn-open:hover {
 .toolbar-item {
     margin-left: 5px;
 }
+img#img-account {
+    width: 24px;
+    border-radius: 50%;
+}

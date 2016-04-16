@@ -36,6 +36,11 @@ var main = function (settings) {
     buttonInfo.addEventListener('click', function (_) {
         Views.add(Views.INFO);
     });
+    var buttonAccount = document.getElementById('img-account');
+    buttonAccount.src = settings.accounts.list[settings.accounts.lastUsed].image;
+    buttonAccount.addEventListener('click', function () {
+        window.open(chrome.extension.getURL('options.html'));
+    });
     var buttonCloseInfo = document.getElementById('btn-close-info');
     buttonCloseInfo.addEventListener('click', function (_) {
         Views.remove(Views.INFO);
