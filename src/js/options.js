@@ -41,15 +41,16 @@ $(document).ready(function() {
             });
             var img = $('<img>').attr({
                 src: account.image,
-                height: 64,
-                width: 64
+                height: 24,
+                width: 24
             });
             // Pack
             label.append(img);
-            $('#accounts-container').append(input, label);
+            label.append(' ' + account.name + ' (' + account.email + ')');
+            $('#accounts-container').append(input, label, '<br/>');
         });
         if (location.search === '?modal-choose-user') {
-            $('#modal1').openModal();
+            $('#multiple-account-modal').openModal();
         }
     });
 });

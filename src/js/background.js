@@ -37,7 +37,10 @@ Settings.load(function (data) {
     chrome.browserAction.setIcon({
         path: paths[settings.icon]
     });
-    settings.accounts.lastChecked = 0;
+    if (typeof settings.accounts.lastUsed === 'undefined') {
+        // Force discovery
+        settings.accounts.lastChecked = 0;
+    }
     // TODO: Let user choose time between accounts discovery
     if (elapsedSince(settings.accounts.lastChecked) > (2 * HOURS)) {
         Account.getAll(function (err, accounts) {
