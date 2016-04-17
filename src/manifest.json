@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Popup for Keep™",
     "description": "Load Google Keep™ in a popup from the current tab in Google Chrome™.",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "author": "Claudio d'Angelis",
     "browser_action": {
         "default_icon": {
