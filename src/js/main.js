@@ -37,7 +37,9 @@ var main = function (settings) {
         Views.add(Views.INFO);
     });
     var buttonAccount = document.getElementById('img-account');
-    buttonAccount.src = settings.accounts.list[settings.accounts.lastUsed].image;
+    if (typeof settings.accounts.list !== 'undefined') {
+        buttonAccount.src = settings.accounts.list[settings.accounts.lastUsed].image;
+    }
     buttonAccount.addEventListener('click', function () {
         window.open(chrome.extension.getURL('options.html'));
     });
