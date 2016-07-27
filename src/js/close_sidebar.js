@@ -18,6 +18,11 @@ var attemptClosingSidebar = function () {
 // `window.top` could not be accessible.
 try {
     window.top.name = '';
+    // If inner height matches outer height it means that the window is the
+    // detached window (there is no menubar in the detached window).
+    if (window.innerHeight === window.outerHeight) {
+        attemptClosingSidebar();
+    }
 } catch (ex) {
     if (ex.message.indexOf('cross-origin') !== -1) {
         attemptClosingSidebar();
