@@ -23,10 +23,10 @@ var Account = {
                             );
                             var name = 'unkown';
                             var email = 'unkown';
-                            var image = null;
+                            var image = '';
                             // TODO: Keep selectors separated
-                            var nameNode = doc.querySelector('.gb_jb > .gb_nb');
-                            var emailNode = doc.querySelector('.gb_jb > .gb_ob');
+                            var nameNode = doc.querySelector('.gb_jb .gb_pb');
+                            var emailNode = doc.querySelector('.gb_jb .gb_qb');
                             var imageNode = doc.querySelector('style');
                             if (nameNode !== null) {
                                 name = nameNode.textContent;
@@ -35,7 +35,8 @@ var Account = {
                                 email = emailNode.textContent;
                             }
                             if (imageNode !== null) {
-                                var r = new RegExp(/\/\/[a-zA-Z\.0-9\/-]+jpg/g);
+                                var r = new RegExp(/\/\/[a-zA-Z\.0-9\/-]+photo\.jpg/g);
+                                console.debug('img', imageNode.innerHTML.match(r));
                                 var foundImages = imageNode.innerHTML.match(r);
                                 if (foundImages !== null) {
                                     // Take the second found, 96x96
