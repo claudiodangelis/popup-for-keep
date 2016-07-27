@@ -7,7 +7,7 @@ var attemptClosingSidebar = function () {
     } catch (_) {
         setTimeout(function () {
             attemptClosingSidebar();
-        }, 1000);
+        }, 750);
     }
 };
 // Try to access the top window. If the error mentions a cross-origin issue,
