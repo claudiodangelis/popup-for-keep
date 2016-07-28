@@ -24,6 +24,8 @@ var main = function (settings) {
             top: top,
             focused: true,
             type: 'popup'
+        }, function (window) {
+            chrome.runtime.sendMessage({action: 'set-popout', args: window.id});
         });
     });
     var buttonSettings = document.getElementById('btn-settings');
