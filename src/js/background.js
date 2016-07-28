@@ -40,6 +40,7 @@ Settings.load(function (data) {
     }
 });
 // Listen for messages
+var popout = null;
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (sender === null) {
         console.error('null sender');
@@ -49,6 +50,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         sendResponse();
     } else if (request.action === 'get-settings') {
         sendResponse(settings);
+    } else if (request.action === 'am-i-the-popout') {
+        sendResponse(popout === sender.tab.windowId);
+    } else if (request.action === 'set-popout') {
+        popout = request.args;
     }
     return true;
 });
