@@ -21,8 +21,8 @@ var Account = {
                             doc = parser.parseFromString(
                                 xhr.responseText, 'text/html'
                             );
-                            var name = 'unkown';
-                            var email = 'unkown';
+                            var name = 'unknown';
+                            var email = 'unknown';
                             var image = '';
                             // TODO: Keep selectors separated
                             var nameNode = doc.querySelector('.gb_jb .gb_pb');
