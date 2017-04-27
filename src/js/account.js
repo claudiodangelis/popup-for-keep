@@ -25,23 +25,23 @@ var Account = {
                             var email = 'unknown';
                             var image = '';
                             // TODO: Keep selectors separated
-                            var nameNode = doc.querySelector('.gb_jb .gb_pb');
-                            var emailNode = doc.querySelector('.gb_jb .gb_qb');
-                            var imageNode = doc.querySelector('style');
-                            if (nameNode !== null) {
-                                name = nameNode.textContent;
+                            var infoNode = doc.querySelector(
+                                '[href^="https://accounts.google.com/SignOutOptions"'
+                            )
+                            var info = infoNode.getAttribute('aria-label');
+                            // Get name
+                            // TODO: Clean name up
+                            name = info
+                            // Get email
+                            email = info.match(
+                                /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi
+                            );
+                            if (email.length > 0) {
+                              email = email[0]
                             }
-                            if (emailNode !== null) {
-                                email = emailNode.textContent;
-                            }
+                            var imageNode = doc.querySelector(`a[href$="?authuser=${index}"] > img`)
                             if (imageNode !== null) {
-                                var r = new RegExp(/\/\/[a-zA-Z\.0-9\/-]+photo\.jpg/g);
-                                console.debug('img', imageNode.innerHTML.match(r));
-                                var foundImages = imageNode.innerHTML.match(r);
-                                if (foundImages !== null) {
-                                    // Take the second found, 96x96
-                                    image = 'https:' + foundImages[1];
-                                }
+                              image = imageNode.getAttribute('data-src')
                             }
                             users.push({
                                 index: index,

@@ -46,7 +46,7 @@ $(document).ready(function() {
             });
             // Pack
             label.append(img);
-            label.append(' ' + account.name + ' (' + account.email + ')');
+            label.append(' ' + account.name);
             $('#accounts-container').append(input, label, '<br/>');
         });
         if (location.search === '?modal-choose-user') {
