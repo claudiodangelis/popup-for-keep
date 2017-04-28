@@ -86,7 +86,7 @@ var addToKeep = function (info, tab) {
     });
 };
 // Create context menus
-['page', 'selection'].forEach(function (context) {
+['page', 'selection', 'link'].forEach(function (context) {
     chrome.contextMenus.create({
         'title': ['Add', context, 'to Google Keep'].join(' '),
         'contexts': [ context ],
