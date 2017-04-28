@@ -74,22 +74,6 @@ iframe {
     background: #1e90ff;
     border: 0;
 }
-#info-view {
-    visibility: hidden;
-    display: none;
-    width: 85%;
-    height: 70%;
-    position: absolute;
-    z-index: 9999;
-    background-color: #EDEDED;
-    border: 1px solid #E2E2E2;
-    top: 33px;
-    box-shadow: 5px 5px 9px 0px rgba(50, 50, 50, 0.77);
-    left: 50%;
-    margin-left: -45%;
-    padding-top: 25px;
-    padding-left: 10px;
-}
 #login-btn:hover {
     border: 1px solid white;
 }

@@ -3,7 +3,6 @@ var Views = {
     SPINNER: 'spinner',
     NOTAUTH: 'notAuth',
     TOOLBAR: 'toolbar',
-    INFO: 'info',
     setAttributes: function (view, properties) {
         var node = document.getElementById(view + '-view');
         Object.keys(properties).forEach(function (key) {

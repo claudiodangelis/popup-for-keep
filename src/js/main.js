@@ -34,10 +34,6 @@ var main = function (settings) {
             chrome.extension.getURL('options.html')
         );
     });
-    var buttonInfo = document.getElementById('btn-info');
-    buttonInfo.addEventListener('click', function () {
-        Views.add(Views.INFO);
-    });
     var buttonAccount = document.getElementById('img-account');
     if (typeof settings.accounts.list !== 'undefined') {
         buttonAccount.src = settings.accounts.list[settings.accounts.lastUsed].image;
@@ -45,16 +41,9 @@ var main = function (settings) {
     buttonAccount.addEventListener('click', function () {
         window.open(chrome.extension.getURL('options.html'));
     });
-    var buttonCloseInfo = document.getElementById('btn-close-info');
-    buttonCloseInfo.addEventListener('click', function () {
-        Views.remove(Views.INFO);
-    });
     document.getElementById('login-btn').onclick = function () {
         chrome.tabs.create({url: GOOGLE_ACCOUNT_URL});
     };
-    document.getElementById(
-        'version'
-    ).textContent = chrome.runtime.getManifest().version;
     var isGoogleAccountUrl = function (header) {
         return (header.value.indexOf(GOOGLE_ACCOUNT_URL) === 0);
     };
