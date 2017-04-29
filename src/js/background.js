@@ -93,3 +93,25 @@ var addToKeep = function (info, tab) {
         'onclick': addToKeep
     });
 });
+chrome.contextMenus.create({
+  title: 'Open Google Keep',
+  contexts: ['browser_action'],
+  onclick: function () {
+    var found = false
+    chrome.tabs.query({
+      url: 'https://keep.google.com/*'
+    }, function (tabs) {
+      tabs.forEach(function (tab) {
+        if (found === false) {
+          found = true
+          chrome.tabs.update(tab.id, {active: true})
+        }
+      })
+      if (found === false) {
+        chrome.tabs.create({
+          url: 'https://keep.google.com/u/' + (settings.accounts.lastUsed || '0')
+        })
+      }
+    })
+  }
+})
