@@ -7,6 +7,9 @@ var main = function (settings) {
             lastUsed: 0
         };
     }
+    if (typeof settings.showMenu === 'undefined') {
+      settings.showMenu = true
+    }
     var postfix = 'u/' + settings.accounts.lastUsed + '/';
     Views.show(Views.SPINNER);
     Views.setAttributes(Views.KEEP, {
@@ -54,7 +57,9 @@ var main = function (settings) {
             var headers = req.responseHeaders;
             if (req.url === GOOGLE_KEEP_URL + postfix) {
                 Views.show(Views.KEEP);
-                Views.add(Views.TOOLBAR);
+                if (settings.showMenu === true) {
+                  Views.add(Views.TOOLBAR);
+                }
             }
             for (var i = headers.length - 1; i >= 0; --i) {
                 var header = headers[i].name.toLowerCase();

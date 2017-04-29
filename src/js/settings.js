@@ -5,6 +5,7 @@ var Settings = {
             if (typeof retValue === 'undefined') {
                 retValue = {
                     icon: 'icon_bichrome',
+                    showMenu: true,
                     accounts: {
                         lastChecked: 0
                     }

@@ -14,14 +14,22 @@ $(document).ready(function() {
     };
     $('select').material_select();
     Settings.load(function (settings) {
-        $('input#$id'.replace('$id', settings.icon)).prop('checked', true);
-        $('input:radio[name=group-icon]').change(function () {
+        $('input#$id'.replace('$id', settings.icon)).prop('checked', true); $('input:radio[name=group-icon]').change(function () {
             settings.icon = $('input:radio[name=group-icon]:checked').val();
             chrome.browserAction.setIcon({
                 path: paths[settings.icon]
             });
             saveSettings(settings);
         });
+        if (typeof settings.showMenu === 'undefined') {
+          settings.showMenu = true
+          saveSettings(settings)
+        }
+        $('input:checkbox[name=toggle-menubar]').prop('checked', settings.showMenu)
+        $('input:checkbox[name=toggle-menubar]').change(function () {
+          settings.showMenu = $('input:checkbox[name=toggle-menubar]').prop('checked')
+          saveSettings(settings)
+        })
         // Populate accounts
         settings.accounts.list.forEach(function (account, index) {
             var input = $('<input>').attr({
