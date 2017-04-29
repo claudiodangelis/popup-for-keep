@@ -30,7 +30,9 @@ var Settings = {
                     settings: settings
                 });
             }
-            callback(retValue);
+            if (typeof callback === 'function') {
+              callback(retValue);
+            }
         });
     }
 };

@@ -27,15 +27,12 @@ Settings.load(function (data) {
                 settings.accounts.lastUsed = 0;
                 if (settings.accounts.list.length > 1) {
                     // Open options page
-                    console.debug('Opening options page');
                     chrome.tabs.create({
                         url: 'options.html' + '?modal-choose-user'
                     });
                 }
             }
-            Settings.save(settings, function (status) {
-                console.debug('Saving settings', status);
-            });
+            Settings.save(settings);
         });
     }
 });
