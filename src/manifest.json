@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Popup for Keep™",
     "description": "Load Google Keep™ in a popup from the current tab in Google Chrome™.",
-    "version": "0.8.0",
+    "version": "0.9.0",
     "author": "Claudio d'Angelis",
     "browser_action": {
         "default_icon": {
@@ -20,21 +20,21 @@
         "128": "img/icon-128.png"
     },
     "background": {
-        "scripts": [ "js/common.js", "js/settings.js", "js/background.js", "js/account.js" ],
+        "scripts": [
+            "js/background.bundle.js"
+        ],
         "persistent": true
     },
     "options_page": "options.html",
     "content_scripts": [
         {
-            "matches": ["https://keep.google.com/*?create_note"],
-            "js": [ "js/create_note.js" ],
+            "matches": [
+                "https://keep.google.com/*?create_note"
+            ],
+            "js": [
+                "js/addTo.bundle.js"
+            ],
             "run_at": "document_end"
-        },
-        {
-            "matches": ["https://keep.google.com/*"],
-            "js": [ "js/close_sidebar.js" ],
-            "run_at": "document_end",
-            "all_frames": true
         }
     ],
     "permissions": [
@@ -43,5 +43,6 @@
         "webRequestBlocking",
         "storage",
         "https://keep.google.com/keep/"
-     ]
+    ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
