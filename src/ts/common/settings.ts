@@ -18,16 +18,12 @@ export var DefaultIcons: Icon[] = [
 
 export class Settings {
     icon: string = DefaultIcons[0].path
-    showMenu: boolean = false
     lastUsedAccount: number = 0
     accounts: Account[] = []
     construct() {}
     fromObject(object) {
         if (typeof object.icon !== 'undefined') {
             this.icon = object.icon
-        }
-        if (typeof object.showMenu !== 'undefined') {
-            this.showMenu = object.showMenu
         }
         if (typeof object.lastUsedAccount !== 'undefined') {
             this.lastUsedAccount = object.lastUsedAccount

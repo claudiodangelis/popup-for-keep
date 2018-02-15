@@ -17,6 +17,10 @@ export class App {
         return new Promise<boolean>((resolve, reject) => {
             LoadSettings().then(settings => {
                 this.settings = settings
+                // Set icon
+                chrome.browserAction.setIcon({
+                    path: this.settings.icon
+                })
             }).then(() => {
                 resolve(true)
             }).catch(reject)
@@ -72,6 +76,18 @@ export class App {
                     })
                 }
             })
+            // Discover accounts every 6 hours
+            const discover = () => {
+                DiscoverAccounts().then(accounts => {
+                    this.settings.accounts = accounts
+                    this.settings.save().then(() => {
+                        setTimeout(discover, 6 * 60 * 60 * 1000)
+                    })
+                }).catch((error) => {
+                    console.error(error)
+                })
+            }
+            setTimeout(discover, 6 * 60 * 60 * 1000)
         })
     }
 }

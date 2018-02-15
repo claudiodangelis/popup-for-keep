@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 57);
+/******/ 	return __webpack_require__(__webpack_require__.s = 61);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71098,7 +71098,9 @@ Zone.__load_patch('PromiseRejectionEvent', function (global, Zone, api) {
 
 /***/ }),
 /* 50 */,
-/* 51 */
+/* 51 */,
+/* 52 */,
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71113,34 +71115,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(49);
 const core_1 = __webpack_require__(1);
 const platform_browser_1 = __webpack_require__(11);
-const popup_component_1 = __webpack_require__(52);
+const options_component_1 = __webpack_require__(54);
 const settings_service_1 = __webpack_require__(21);
-let AppModule = class AppModule {
+let AppOptionsModule = class AppOptionsModule {
 };
-AppModule = __decorate([
+AppOptionsModule = __decorate([
     core_1.NgModule({
         imports: [
             platform_browser_1.BrowserModule,
         ],
         declarations: [
-            popup_component_1.PopupComponent,
+            options_component_1.OptionsComponent
         ],
         entryComponents: [
-            popup_component_1.PopupComponent,
+            options_component_1.OptionsComponent
         ],
         providers: [
             settings_service_1.SettingsService
         ],
         bootstrap: [
-            popup_component_1.PopupComponent,
+            options_component_1.OptionsComponent
         ]
     })
-], AppModule);
-exports.AppModule = AppModule;
+], AppOptionsModule);
+exports.AppOptionsModule = AppOptionsModule;
 
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71160,91 +71162,57 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = __webpack_require__(1);
 const settings_service_1 = __webpack_require__(21);
-const platform_browser_1 = __webpack_require__(11);
-let PopupComponent = class PopupComponent {
-    constructor(settingsService, sanitizer, cd) {
+const settings_1 = __webpack_require__(6);
+let OptionsComponent = class OptionsComponent {
+    constructor(settingsService) {
         this.settingsService = settingsService;
-        this.sanitizer = sanitizer;
-        this.cd = cd;
-        this.isLoading = true;
-        settingsService.getSettings().then((settings) => {
-            this.settings = settings;
-            this.googleKeepURL = this.sanitizer.bypassSecurityTrustResourceUrl('https://keep.google.com/u/' + settings.lastUsedAccount);
-        });
+        this.title = 'Options Page';
     }
-    show() {
-        this.isLoading = false;
-        this.cd.detectChanges();
+    chooseAccount(accountIndex) {
+        this.settings.lastUsedAccount = accountIndex;
+        this.settings.save();
+    }
+    chooseIcon(iconIndex) {
+        this.settings.icon = settings_1.DefaultIcons[iconIndex].path;
+        chrome.browserAction.setIcon({
+            path: this.settings.icon
+        });
+        this.settings.save();
     }
     ngOnInit() {
-        chrome.webRequest.onHeadersReceived.addListener(req => {
-            if (req.url.indexOf('https://keep.google.com/u/') === 0) {
-                this.show();
-            }
-            let headers = req.responseHeaders;
-            for (let i = headers.length - 1; i >= 0; --i) {
-                let header = headers[i].name.toLowerCase();
-                if (header === 'x-frame-options' || header === 'frame-options') {
-                    headers.splice(i, 1);
-                }
-            }
-            return {
-                responseHeaders: headers
-            };
-        }, {
-            urls: [
-                '*://*/*'
-            ],
-            types: [
-                'sub_frame'
-            ]
-        }, [
-            'blocking',
-            'responseHeaders'
-        ]);
+        this.settingsService.getSettings().then(settings => {
+            this.settings = settings;
+        });
     }
 };
-PopupComponent = __decorate([
+OptionsComponent = __decorate([
     core_1.Component({
-        selector: 'popup-for-keep',
-        template: `
-    <div [style.visibility]="isLoading == true ? 'visible' : 'hidden'">
-    </div>
-    <iframe [style.visibility]="isLoading == false ? 'visible' : 'hidden'" width=500 height=500 [src]="googleKeepURL"></iframe>
-    `,
-        styles: [`
-    iframe {
-        border: 0;
-    }
-    `]
+        selector: 'app-options',
+        templateUrl: './options.component.html'
     }),
     __param(0, core_1.Inject(settings_service_1.SettingsService)),
-    __param(1, core_1.Inject(platform_browser_1.DomSanitizer)),
-    __param(2, core_1.Inject(core_1.ChangeDetectorRef)),
-    __metadata("design:paramtypes", [settings_service_1.SettingsService,
-        platform_browser_1.DomSanitizer,
-        core_1.ChangeDetectorRef])
-], PopupComponent);
-exports.PopupComponent = PopupComponent;
+    __metadata("design:paramtypes", [settings_service_1.SettingsService])
+], OptionsComponent);
+exports.OptionsComponent = OptionsComponent;
 
 
 /***/ }),
-/* 53 */,
-/* 54 */,
 /* 55 */,
 /* 56 */,
-/* 57 */
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(6);
-__webpack_require__(58);
-__webpack_require__(51);
-__webpack_require__(21);
-module.exports = __webpack_require__(52);
+__webpack_require__(62);
+__webpack_require__(53);
+module.exports = __webpack_require__(54);
 
 
 /***/ }),
-/* 58 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71252,9 +71220,9 @@ module.exports = __webpack_require__(52);
 Object.defineProperty(exports, "__esModule", { value: true });
 const platform_browser_dynamic_1 = __webpack_require__(22);
 const core_1 = __webpack_require__(1);
-const module_1 = __webpack_require__(51);
+const module_1 = __webpack_require__(53);
 core_1.enableProdMode();
-platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(module_1.AppModule);
+platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(module_1.AppOptionsModule);
 
 
 /***/ })

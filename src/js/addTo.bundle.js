@@ -60,20 +60,20 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 57);
+/******/ 	return __webpack_require__(__webpack_require__.s = 59);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 57:
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(58);
+module.exports = __webpack_require__(60);
 
 
 /***/ }),
 
-/***/ 58:
+/***/ 60:
 /***/ (function(module, exports) {
 
 // TODO: There is some duplicate code that can be wrapped together

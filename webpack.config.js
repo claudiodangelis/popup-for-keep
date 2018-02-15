@@ -17,6 +17,11 @@ module.exports = {
         ],
         addTo: [
             path.join(__dirname, 'src/ts/common/addTo.ts')
+        ],
+        options: [
+            path.join(__dirname, 'src/ts/options/main.ts'),
+            path.join(__dirname, 'src/ts/options/module.ts'),
+            path.join(__dirname, 'src/ts/options/options.component.ts')
         ]
     },
     output: {
