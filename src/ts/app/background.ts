@@ -7,3 +7,4 @@ app.configure()
             console.warn('no accounts have been found')
         }
     })
+

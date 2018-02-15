@@ -25,26 +25,15 @@
         ],
         "persistent": true
     },
-    "options_page": "options.html",
     "content_scripts": [
         {
             "matches": [
                 "https://keep.google.com/*?create_note"
             ],
             "js": [
-                "js/create_note.js"
+                "js/addTo.bundle.js"
             ],
             "run_at": "document_end"
-        },
-        {
-            "matches": [
-                "https://keep.google.com/*"
-            ],
-            "js": [
-                "js/close_sidebar.js"
-            ],
-            "run_at": "document_end",
-            "all_frames": true
         }
     ],
     "permissions": [

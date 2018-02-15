@@ -14,6 +14,9 @@ module.exports = {
             path.join(__dirname, 'src/ts/client/module.ts'),
             path.join(__dirname, 'src/ts/client/services/settings.service.ts'),
             path.join(__dirname, 'src/ts/client/components/popup.component.ts')
+        ],
+        addTo: [
+            path.join(__dirname, 'src/ts/common/addTo.ts')
         ]
     },
     output: {
