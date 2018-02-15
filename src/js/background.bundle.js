@@ -65,75 +65,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ 10:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-class Account {
-    constructor() {
-        this.user = 'unknown';
-        this.email = 'unknown';
-        this.imageSrc = null;
-    }
-}
-exports.Account = Account;
-function createAccountFromFragment(html, index) {
-    let account = new Account();
-    account.index = index;
-    return new Promise(resolve => {
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(html, 'text/html');
-        let infoNode = doc.querySelector('[href^="https://accounts.google.com/SignOutOptions"');
-        let info = infoNode.getAttribute('aria-label');
-        account.user = info;
-        let emailMatches = info.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
-        if (emailMatches.length > 0) {
-            account.email = emailMatches[0];
-        }
-        var imageNode = doc.querySelector(`a[href$="?authuser=${index}"] > img`);
-        if (imageNode !== null) {
-            account.imageSrc = imageNode.getAttribute('data-src');
-        }
-        resolve(account);
-    });
-}
-function DiscoverAccounts() {
-    let accounts = [];
-    return new Promise((resolve, reject) => {
-        let index = 0;
-        let next = () => {
-            let xhr = new XMLHttpRequest();
-            xhr.open('get', `https://keep.google.com/u/${index}/`, true);
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === xhr.DONE && xhr.status === 200) {
-                    if (xhr.responseURL.split('/')[4] === index.toString()) {
-                        // Found
-                        createAccountFromFragment(xhr.responseText, index).then(account => {
-                            accounts.push(account);
-                            index++;
-                            next();
-                        }).catch((err) => {
-                            index++;
-                            next();
-                        });
-                    }
-                    else {
-                        resolve(accounts);
-                    }
-                }
-            };
-            xhr.send();
-        };
-        next();
-    });
-}
-exports.DiscoverAccounts = DiscoverAccounts;
-
-
-/***/ }),
-
 /***/ 50:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -141,7 +72,7 @@ exports.DiscoverAccounts = DiscoverAccounts;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const settings_1 = __webpack_require__(6);
-const account_1 = __webpack_require__(10);
+const account_1 = __webpack_require__(7);
 class App {
     construct() {
         this.settings = new settings_1.Settings();
@@ -233,7 +164,7 @@ exports.App = App;
 /***/ 55:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(10);
+__webpack_require__(7);
 __webpack_require__(6);
 __webpack_require__(50);
 module.exports = __webpack_require__(56);
@@ -265,7 +196,7 @@ app.configure()
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const account_1 = __webpack_require__(10);
+const account_1 = __webpack_require__(7);
 exports.DefaultIcons = [
     {
         name: 'Color',
@@ -337,6 +268,75 @@ function LoadSettings() {
     });
 }
 exports.LoadSettings = LoadSettings;
+
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Account {
+    constructor() {
+        this.user = 'unknown';
+        this.email = 'unknown';
+        this.imageSrc = null;
+    }
+}
+exports.Account = Account;
+function createAccountFromFragment(html, index) {
+    let account = new Account();
+    account.index = index;
+    return new Promise(resolve => {
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(html, 'text/html');
+        let infoNode = doc.querySelector('[href^="https://accounts.google.com/SignOutOptions"');
+        let info = infoNode.getAttribute('aria-label');
+        account.user = info;
+        let emailMatches = info.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+        if (emailMatches.length > 0) {
+            account.email = emailMatches[0];
+        }
+        var imageNode = doc.querySelector(`a[href$="?authuser=${index}"] > img`);
+        if (imageNode !== null) {
+            account.imageSrc = imageNode.getAttribute('data-src');
+        }
+        resolve(account);
+    });
+}
+function DiscoverAccounts() {
+    let accounts = [];
+    return new Promise((resolve, reject) => {
+        let index = 0;
+        let next = () => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('get', `https://keep.google.com/u/${index}/`, true);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+                    if (xhr.responseURL.split('/')[4] === index.toString()) {
+                        // Found
+                        createAccountFromFragment(xhr.responseText, index).then(account => {
+                            accounts.push(account);
+                            index++;
+                            next();
+                        }).catch((err) => {
+                            index++;
+                            next();
+                        });
+                    }
+                    else {
+                        resolve(accounts);
+                    }
+                }
+            };
+            xhr.send();
+        };
+        next();
+    });
+}
+exports.DiscoverAccounts = DiscoverAccounts;
 
 
 /***/ })

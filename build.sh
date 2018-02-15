@@ -1,3 +1,10 @@
 #!/bin/bash
+function finish {
+    cd -
+    echo `pwd`
+}
+trap finish EXIT
 TAG=`git describe --tags`
-zip -r "/tmp/popupforkeep-$TAG.zip" src/ -x src/ts
+cd src
+echo `pwd`
+zip -r "/tmp/popupforkeep-$TAG.zip" * -x ts/**\*

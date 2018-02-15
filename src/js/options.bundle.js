@@ -71,7 +71,7 @@
 
 var root_1 = __webpack_require__(4);
 var toSubscriber_1 = __webpack_require__(24);
-var observable_1 = __webpack_require__(16);
+var observable_1 = __webpack_require__(17);
 var pipe_1 = __webpack_require__(28);
 /**
  * A representation of any set of values over any amount of time. This is the most basic building block
@@ -578,7 +578,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_observable_merge___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_observable_merge__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_share__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_share___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_operator_share__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__);
 /**
  * @license Angular v5.1.0
@@ -7165,7 +7165,7 @@ var SystemJsNgModuleLoader = /** @class */ (function () {
         if (exportName === undefined) {
             exportName = 'default';
         }
-        return __webpack_require__(19)(module)
+        return __webpack_require__(20)(module)
             .then(function (module) { return module[exportName]; })
             .then(function (type) { return checkNotEmpty(type, module, exportName); })
             .then(function (type) { return _this._compiler.compileModuleAsync(type); });
@@ -7185,7 +7185,7 @@ var SystemJsNgModuleLoader = /** @class */ (function () {
             exportName = 'default';
             factoryClassSuffix = '';
         }
-        return __webpack_require__(19)(this._config.factoryPathPrefix + module + this._config.factoryPathSuffix)
+        return __webpack_require__(20)(this._config.factoryPathPrefix + module + this._config.factoryPathSuffix)
             .then(function (module) { return module[exportName + factoryClassSuffix]; })
             .then(function (factory) { return checkNotEmpty(factory, module, exportName); });
     };
@@ -17435,7 +17435,7 @@ function transition$$1(stateChangeExpr, steps) {
 
 //# sourceMappingURL=core.js.map
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(8)))
 
 /***/ }),
 /* 2 */
@@ -17448,10 +17448,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var isFunction_1 = __webpack_require__(12);
+var isFunction_1 = __webpack_require__(13);
 var Subscription_1 = __webpack_require__(5);
-var Observer_1 = __webpack_require__(15);
-var rxSubscriber_1 = __webpack_require__(8);
+var Observer_1 = __webpack_require__(16);
+var rxSubscriber_1 = __webpack_require__(9);
 /**
  * Implements the {@link Observer} interface and extends the
  * {@link Subscription} class. While the {@link Observer} is the public API for
@@ -17921,7 +17921,7 @@ exports.root = _root;
     }
 })();
 //# sourceMappingURL=root.js.map
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 5 */
@@ -17930,10 +17930,10 @@ exports.root = _root;
 "use strict";
 
 var isArray_1 = __webpack_require__(25);
-var isObject_1 = __webpack_require__(13);
-var isFunction_1 = __webpack_require__(12);
+var isObject_1 = __webpack_require__(14);
+var isFunction_1 = __webpack_require__(13);
 var tryCatch_1 = __webpack_require__(26);
-var errorObject_1 = __webpack_require__(14);
+var errorObject_1 = __webpack_require__(15);
 var UnsubscriptionError_1 = __webpack_require__(27);
 /**
  * Represents a disposable resource, such as the execution of an Observable. A
@@ -18129,7 +18129,7 @@ function flattenUnsubscriptionErrors(errors) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const account_1 = __webpack_require__(10);
+const account_1 = __webpack_require__(7);
 exports.DefaultIcons = [
     {
         name: 'Color',
@@ -18205,6 +18205,74 @@ exports.LoadSettings = LoadSettings;
 
 /***/ }),
 /* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Account {
+    constructor() {
+        this.user = 'unknown';
+        this.email = 'unknown';
+        this.imageSrc = null;
+    }
+}
+exports.Account = Account;
+function createAccountFromFragment(html, index) {
+    let account = new Account();
+    account.index = index;
+    return new Promise(resolve => {
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(html, 'text/html');
+        let infoNode = doc.querySelector('[href^="https://accounts.google.com/SignOutOptions"');
+        let info = infoNode.getAttribute('aria-label');
+        account.user = info;
+        let emailMatches = info.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+        if (emailMatches.length > 0) {
+            account.email = emailMatches[0];
+        }
+        var imageNode = doc.querySelector(`a[href$="?authuser=${index}"] > img`);
+        if (imageNode !== null) {
+            account.imageSrc = imageNode.getAttribute('data-src');
+        }
+        resolve(account);
+    });
+}
+function DiscoverAccounts() {
+    let accounts = [];
+    return new Promise((resolve, reject) => {
+        let index = 0;
+        let next = () => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('get', `https://keep.google.com/u/${index}/`, true);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+                    if (xhr.responseURL.split('/')[4] === index.toString()) {
+                        // Found
+                        createAccountFromFragment(xhr.responseText, index).then(account => {
+                            accounts.push(account);
+                            index++;
+                            next();
+                        }).catch((err) => {
+                            index++;
+                            next();
+                        });
+                    }
+                    else {
+                        resolve(accounts);
+                    }
+                }
+            };
+            xhr.send();
+        };
+        next();
+    });
+}
+exports.DiscoverAccounts = DiscoverAccounts;
+
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports) {
 
 var g;
@@ -18231,7 +18299,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18247,7 +18315,7 @@ exports.$$rxSubscriber = exports.rxSubscriber;
 //# sourceMappingURL=rxSubscriber.js.map
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18262,7 +18330,7 @@ var Subscriber_1 = __webpack_require__(2);
 var Subscription_1 = __webpack_require__(5);
 var ObjectUnsubscribedError_1 = __webpack_require__(47);
 var SubjectSubscription_1 = __webpack_require__(48);
-var rxSubscriber_1 = __webpack_require__(8);
+var rxSubscriber_1 = __webpack_require__(9);
 /**
  * @class SubjectSubscriber<T>
  */
@@ -18421,74 +18489,6 @@ exports.AnonymousSubject = AnonymousSubject;
 //# sourceMappingURL=Subject.js.map
 
 /***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-class Account {
-    constructor() {
-        this.user = 'unknown';
-        this.email = 'unknown';
-        this.imageSrc = null;
-    }
-}
-exports.Account = Account;
-function createAccountFromFragment(html, index) {
-    let account = new Account();
-    account.index = index;
-    return new Promise(resolve => {
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(html, 'text/html');
-        let infoNode = doc.querySelector('[href^="https://accounts.google.com/SignOutOptions"');
-        let info = infoNode.getAttribute('aria-label');
-        account.user = info;
-        let emailMatches = info.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
-        if (emailMatches.length > 0) {
-            account.email = emailMatches[0];
-        }
-        var imageNode = doc.querySelector(`a[href$="?authuser=${index}"] > img`);
-        if (imageNode !== null) {
-            account.imageSrc = imageNode.getAttribute('data-src');
-        }
-        resolve(account);
-    });
-}
-function DiscoverAccounts() {
-    let accounts = [];
-    return new Promise((resolve, reject) => {
-        let index = 0;
-        let next = () => {
-            let xhr = new XMLHttpRequest();
-            xhr.open('get', `https://keep.google.com/u/${index}/`, true);
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === xhr.DONE && xhr.status === 200) {
-                    if (xhr.responseURL.split('/')[4] === index.toString()) {
-                        // Found
-                        createAccountFromFragment(xhr.responseText, index).then(account => {
-                            accounts.push(account);
-                            index++;
-                            next();
-                        }).catch((err) => {
-                            index++;
-                            next();
-                        });
-                    }
-                    else {
-                        resolve(accounts);
-                    }
-                }
-            };
-            xhr.send();
-        };
-        next();
-    });
-}
-exports.DiscoverAccounts = DiscoverAccounts;
-
-
-/***/ }),
 /* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -18542,7 +18542,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵh", function() { return _createNgProbe; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵd", function() { return EventManagerPlugin; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵe", function() { return DomSanitizerImpl; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_tslib__ = __webpack_require__(3);
 /**
@@ -23794,6 +23794,35 @@ var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["Version"]('5.1.0'
 
 "use strict";
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const core_1 = __webpack_require__(1);
+const settings_1 = __webpack_require__(6);
+let SettingsService = class SettingsService {
+    constructor() { }
+    getSettings() { return settings_1.LoadSettings(); }
+};
+SettingsService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], SettingsService);
+exports.SettingsService = SettingsService;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 function isFunction(x) {
     return typeof x === 'function';
 }
@@ -23801,7 +23830,7 @@ exports.isFunction = isFunction;
 //# sourceMappingURL=isFunction.js.map
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23813,7 +23842,7 @@ exports.isObject = isObject;
 //# sourceMappingURL=isObject.js.map
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23823,7 +23852,7 @@ exports.errorObject = { e: {} };
 //# sourceMappingURL=errorObject.js.map
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23837,7 +23866,7 @@ exports.empty = {
 //# sourceMappingURL=Observer.js.map
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23869,7 +23898,7 @@ exports.$$observable = exports.observable;
 //# sourceMappingURL=observable.js.map
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23881,7 +23910,7 @@ exports.isScheduler = isScheduler;
 //# sourceMappingURL=isScheduler.js.map
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23972,7 +24001,7 @@ var RefCountSubscriber = (function (_super) {
 //# sourceMappingURL=refCount.js.map
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -23985,10 +24014,10 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 19;
+webpackEmptyAsyncContext.id = 20;
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -30617,35 +30646,6 @@ var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["Version"]('5.1.0'
 
 
 /***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = __webpack_require__(1);
-const settings_1 = __webpack_require__(6);
-let SettingsService = class SettingsService {
-    constructor() { }
-    getSettings() { return settings_1.LoadSettings(); }
-};
-SettingsService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [])
-], SettingsService);
-exports.SettingsService = SettingsService;
-
-
-/***/ }),
 /* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -30662,7 +30662,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵa", function() { return CachedResourceLoader; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_compiler__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_tslib__ = __webpack_require__(3);
 /**
@@ -66703,8 +66703,8 @@ var Extractor = /** @class */ (function () {
 "use strict";
 
 var Subscriber_1 = __webpack_require__(2);
-var rxSubscriber_1 = __webpack_require__(8);
-var Observer_1 = __webpack_require__(15);
+var rxSubscriber_1 = __webpack_require__(9);
+var Observer_1 = __webpack_require__(16);
 function toSubscriber(nextOrObserver, error, complete) {
     if (nextOrObserver) {
         if (nextOrObserver instanceof Subscriber_1.Subscriber) {
@@ -66737,7 +66737,7 @@ exports.isArray = Array.isArray || (function (x) { return x && typeof x.length =
 
 "use strict";
 
-var errorObject_1 = __webpack_require__(14);
+var errorObject_1 = __webpack_require__(15);
 var tryCatchTarget;
 function tryCatcher() {
     try {
@@ -66837,7 +66837,7 @@ exports.noop = noop;
 
 var Observable_1 = __webpack_require__(0);
 var ArrayObservable_1 = __webpack_require__(31);
-var isScheduler_1 = __webpack_require__(17);
+var isScheduler_1 = __webpack_require__(18);
 var mergeAll_1 = __webpack_require__(34);
 /* tslint:enable:max-line-length */
 /**
@@ -66939,7 +66939,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var Observable_1 = __webpack_require__(0);
 var ScalarObservable_1 = __webpack_require__(32);
 var EmptyObservable_1 = __webpack_require__(33);
-var isScheduler_1 = __webpack_require__(17);
+var isScheduler_1 = __webpack_require__(18);
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @extends {Ignored}
@@ -67451,11 +67451,11 @@ exports.MergeMapSubscriber = MergeMapSubscriber;
 var root_1 = __webpack_require__(4);
 var isArrayLike_1 = __webpack_require__(37);
 var isPromise_1 = __webpack_require__(38);
-var isObject_1 = __webpack_require__(13);
+var isObject_1 = __webpack_require__(14);
 var Observable_1 = __webpack_require__(0);
 var iterator_1 = __webpack_require__(39);
 var InnerSubscriber_1 = __webpack_require__(40);
-var observable_1 = __webpack_require__(16);
+var observable_1 = __webpack_require__(17);
 function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
     var destination = new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex);
     if (destination.closed) {
@@ -67719,8 +67719,8 @@ exports.share = share;
 "use strict";
 
 var multicast_1 = __webpack_require__(45);
-var refCount_1 = __webpack_require__(18);
-var Subject_1 = __webpack_require__(9);
+var refCount_1 = __webpack_require__(19);
+var Subject_1 = __webpack_require__(10);
 function shareSubjectFactory() {
     return new Subject_1.Subject();
 }
@@ -67819,11 +67819,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Subject_1 = __webpack_require__(9);
+var Subject_1 = __webpack_require__(10);
 var Observable_1 = __webpack_require__(0);
 var Subscriber_1 = __webpack_require__(2);
 var Subscription_1 = __webpack_require__(5);
-var refCount_1 = __webpack_require__(18);
+var refCount_1 = __webpack_require__(19);
 /**
  * @class ConnectableObservable<T>
  */
@@ -71094,7 +71094,7 @@ Zone.__load_patch('PromiseRejectionEvent', function (global, Zone, api) {
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 50 */,
@@ -71116,7 +71116,7 @@ __webpack_require__(49);
 const core_1 = __webpack_require__(1);
 const platform_browser_1 = __webpack_require__(11);
 const options_component_1 = __webpack_require__(54);
-const settings_service_1 = __webpack_require__(21);
+const settings_service_1 = __webpack_require__(12);
 let AppOptionsModule = class AppOptionsModule {
 };
 AppOptionsModule = __decorate([
@@ -71161,7 +71161,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = __webpack_require__(1);
-const settings_service_1 = __webpack_require__(21);
+const settings_service_1 = __webpack_require__(12);
 const settings_1 = __webpack_require__(6);
 let OptionsComponent = class OptionsComponent {
     constructor(settingsService) {
