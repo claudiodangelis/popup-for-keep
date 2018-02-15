@@ -1,40 +1,13 @@
 <html>
     <head>
-        <link
-            href='http://fonts.googleapis.com/css?family=Roboto:400italic'
-            rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="/css/master.css" media="screen"
-            title="no title" charset="utf-8">
         <title>Popup For Keep&#0153;</title>
+        <link rel="stylesheet" href="css/main.css">
+        <meta charset="UTF-8">
     </head>
     <body>
-        <div id="toolbar-view">
-            <span class="toolbar-item">Popup For Keep&#0153;</span>
-            <span id="btn-detach" class="clickable toolbar-item">
-                <i class="material-icons">launch</i>
-            </span>
-            <span id="btn-settings" class="clickable toolbar-item">
-                <i class="material-icons">settings</i>
-            </span>
-            <span id="btn-account" class="clickable toolbar-item">
-                <img id="img-account" alt="Avatar" />
-            </span>
-            </p>
-        </div>
-        <div id="spinner-view" class="view">
-            <i id="spinner" class="fa fa-spinner fa-pulse fa-2x"></i>
-            <div id="label">
-                <p>Contacting Google Keep&#0153;...</p>
-            </div>
-        </div>
-        <div id="notAuth-view" class="view">
-            <h1>Oops!</h1>
-            <p>It looks like you're not logged into your Google Account.</p>
-            <button id="login-btn">Log In</button>
-        </div>
-        <iframe id="keep-view" class="view"></iframe>
-        <script type="text/javascript" src="/js/urls.js"></script>
-        <script type="text/javascript" src="/js/views.js"></script>
-        <script type="text/javascript" src="/js/main.js"></script>
+        <popup-for-keep>
+            Loading...
+        </popup-for-keep>
+        <script src="js/popup.bundle.js"></script>
     </body>
 </html>
