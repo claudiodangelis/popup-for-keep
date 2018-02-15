@@ -91,6 +91,7 @@ class App {
                     title: `Add ${context} to Google Keep`,
                     contexts: [context],
                     onclick: (info, tab) => {
+                        let firedOnce = false;
                         const title = tab.title;
                         const text = typeof info.selectionText === 'undefined'
                             ? tab.url
@@ -100,6 +101,10 @@ class App {
                         }, target => {
                             chrome.tabs.onUpdated.addListener(function listener(id, info) {
                                 if (id === target.id && info.status === 'complete') {
+                                    if (firedOnce === true) {
+                                        return;
+                                    }
+                                    firedOnce = true;
                                     chrome.tabs.sendMessage(target.id, {
                                         title: title, text: text
                                     }, {}, response => {
