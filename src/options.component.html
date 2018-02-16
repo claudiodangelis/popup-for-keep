@@ -23,6 +23,7 @@
 </div>
 <h3>Operations</h3>
 <button [disabled]="looking" (click)="lookForGoogleAccounts()">Look for Google Accounts</button>
+<p *ngIf="lookForGoogleAccountsError !== null"><em>{{lookForGoogleAccountsError}}</em></p>
 <h2>About</h2>
 <p>Hi, author here, thanks for using my little extension!</p>
 <p>If you have any <b>feedback</b> please feel free to reach out to me.</p>
