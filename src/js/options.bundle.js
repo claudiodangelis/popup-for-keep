@@ -18187,7 +18187,7 @@ function LoadSettings() {
                     settings.lastUsedAccount = 0;
                     resolve(settings);
                     settings.save();
-                });
+                }).catch(reject);
             }
             else {
                 // More than one account
@@ -18245,6 +18245,7 @@ function DiscoverAccounts() {
         let next = () => {
             let xhr = new XMLHttpRequest();
             xhr.open('get', `https://keep.google.com/u/${index}/`, true);
+            xhr.onerror = reject;
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === xhr.DONE && xhr.status === 200) {
                     if (xhr.responseURL.split('/')[4] === index.toString()) {

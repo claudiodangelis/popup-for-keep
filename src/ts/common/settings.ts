@@ -62,7 +62,7 @@ export function LoadSettings(): Promise<Settings> {
                     settings.lastUsedAccount = 0
                     resolve(settings)
                     settings.save()
-                })
+                }).catch(reject)
             } else {
                 // More than one account
                 if (typeof settings.lastUsedAccount === 'undefined') {

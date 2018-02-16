@@ -18187,7 +18187,7 @@ function LoadSettings() {
                     settings.lastUsedAccount = 0;
                     resolve(settings);
                     settings.save();
-                });
+                }).catch(reject);
             }
             else {
                 // More than one account
@@ -18245,6 +18245,7 @@ function DiscoverAccounts() {
         let next = () => {
             let xhr = new XMLHttpRequest();
             xhr.open('get', `https://keep.google.com/u/${index}/`, true);
+            xhr.onerror = reject;
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === xhr.DONE && xhr.status === 200) {
                     if (xhr.responseURL.split('/')[4] === index.toString()) {
@@ -71167,9 +71168,12 @@ let PopupComponent = class PopupComponent {
         this.sanitizer = sanitizer;
         this.cd = cd;
         this.isLoading = true;
+        this.error = null;
         settingsService.getSettings().then((settings) => {
             this.settings = settings;
             this.googleKeepURL = this.sanitizer.bypassSecurityTrustResourceUrl('https://keep.google.com/u/' + settings.lastUsedAccount);
+        }).catch((err) => {
+            this.error = err;
         });
     }
     show() {
@@ -71178,6 +71182,7 @@ let PopupComponent = class PopupComponent {
     }
     ngOnInit() {
         chrome.webRequest.onHeadersReceived.addListener(req => {
+            console.debug(req);
             if (req.url.indexOf('https://keep.google.com/u/') === 0) {
                 this.show();
             }
@@ -71209,6 +71214,15 @@ PopupComponent = __decorate([
         selector: 'popup-for-keep',
         template: `
     <div [style.visibility]="isLoading == true ? 'visible' : 'hidden'">
+    </div>
+    <div *ngIf="error !== null" style="padding: 10px;">
+        <h2>Error :-(</h2>
+        <p>There has been an error when trying to load data for your Google Keep account.</p>
+        <p>What to do:</p>
+        <ul>
+            <li>Make sure that you are logged into Google Keep</li>
+            <li>If the above does not work, contact the developer (check the <a target="_blank" href="options.html">Options page</a> for contact information)</li>
+        </ul>
     </div>
     <iframe [style.visibility]="isLoading == false ? 'visible' : 'hidden'" width=500 height=500 [src]="googleKeepURL"></iframe>
     `,
