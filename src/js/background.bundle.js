@@ -141,6 +141,19 @@ class App {
                     });
                 }
             });
+            chrome.contextMenus.create({
+                title: 'Open Google Keep in a floating popup',
+                contexts: ['browser_action'],
+                onclick: _ => {
+                    chrome.windows.create({
+                        url: `https://keep.google.com/u/${this.userIndex}`,
+                        width: 500,
+                        height: 500,
+                        focused: true,
+                        type: 'popup'
+                    });
+                }
+            });
             // Discover accounts every 6 hours
             const discover = () => {
                 account_1.DiscoverAccounts().then(accounts => {
