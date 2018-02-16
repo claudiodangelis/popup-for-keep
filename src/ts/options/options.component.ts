@@ -37,6 +37,7 @@ export class OptionsComponent {
         this.looking = true
         this.settingsService.forceAccountDiscovery().then(settings => {
             this.settings = settings
+            this.lookForGoogleAccountsError = null
             this.looking = false
         }).catch(() => {
             this.lookForGoogleAccountsError = 'Unable to find available Google accounts at this time.'
