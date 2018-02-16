@@ -18171,14 +18171,14 @@ function legacySettingsAdapter(object) {
     // Do something with object
     return new Settings();
 }
-function LoadSettings() {
+function LoadSettings(options) {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get('settings', (storage) => {
             let settings = new Settings();
             if (typeof storage.settings !== 'undefined') {
                 settings.fromObject(storage.settings);
             }
-            if (settings.accounts.length === 0) {
+            if (settings.accounts.length === 0 || (typeof options !== 'undefined' && options.forceDiscovery === true)) {
                 account_1.DiscoverAccounts().then((accounts) => {
                     if (accounts.length === 0) {
                         return reject('no accounts found');
@@ -18187,7 +18187,7 @@ function LoadSettings() {
                     settings.lastUsedAccount = 0;
                     resolve(settings);
                     settings.save();
-                });
+                }).catch(reject);
             }
             else {
                 // More than one account
@@ -18245,6 +18245,7 @@ function DiscoverAccounts() {
         let next = () => {
             let xhr = new XMLHttpRequest();
             xhr.open('get', `https://keep.google.com/u/${index}/`, true);
+            xhr.onerror = reject;
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === xhr.DONE && xhr.status === 200) {
                     if (xhr.responseURL.split('/')[4] === index.toString()) {
@@ -23809,6 +23810,7 @@ const settings_1 = __webpack_require__(6);
 let SettingsService = class SettingsService {
     constructor() { }
     getSettings() { return settings_1.LoadSettings(); }
+    forceAccountDiscovery() { return settings_1.LoadSettings({ forceDiscovery: true }); }
 };
 SettingsService = __decorate([
     core_1.Injectable(),
@@ -71167,9 +71169,12 @@ let PopupComponent = class PopupComponent {
         this.sanitizer = sanitizer;
         this.cd = cd;
         this.isLoading = true;
+        this.error = null;
         settingsService.getSettings().then((settings) => {
             this.settings = settings;
             this.googleKeepURL = this.sanitizer.bypassSecurityTrustResourceUrl('https://keep.google.com/u/' + settings.lastUsedAccount);
+        }).catch((err) => {
+            this.error = err;
         });
     }
     show() {
@@ -71209,6 +71214,15 @@ PopupComponent = __decorate([
         selector: 'popup-for-keep',
         template: `
     <div [style.visibility]="isLoading == true ? 'visible' : 'hidden'">
+    </div>
+    <div *ngIf="error !== null" style="padding: 10px;">
+        <h2>Error :-(</h2>
+        <p>There has been an error when trying to load data for your Google Keep account.</p>
+        <p>What to do:</p>
+        <ul>
+            <li>Make sure that you are logged into Google Keep</li>
+            <li>If the above does not work, contact the developer (check the <a target="_blank" href="options.html">Options page</a> for contact information)</li>
+        </ul>
     </div>
     <iframe [style.visibility]="isLoading == false ? 'visible' : 'hidden'" width=500 height=500 [src]="googleKeepURL"></iframe>
     `,

@@ -238,14 +238,14 @@ function legacySettingsAdapter(object) {
     // Do something with object
     return new Settings();
 }
-function LoadSettings() {
+function LoadSettings(options) {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get('settings', (storage) => {
             let settings = new Settings();
             if (typeof storage.settings !== 'undefined') {
                 settings.fromObject(storage.settings);
             }
-            if (settings.accounts.length === 0) {
+            if (settings.accounts.length === 0 || (typeof options !== 'undefined' && options.forceDiscovery === true)) {
                 account_1.DiscoverAccounts().then((accounts) => {
                     if (accounts.length === 0) {
                         return reject('no accounts found');
@@ -254,7 +254,7 @@ function LoadSettings() {
                     settings.lastUsedAccount = 0;
                     resolve(settings);
                     settings.save();
-                });
+                }).catch(reject);
             }
             else {
                 // More than one account
@@ -313,6 +313,7 @@ function DiscoverAccounts() {
         let next = () => {
             let xhr = new XMLHttpRequest();
             xhr.open('get', `https://keep.google.com/u/${index}/`, true);
+            xhr.onerror = reject;
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === xhr.DONE && xhr.status === 200) {
                     if (xhr.responseURL.split('/')[4] === index.toString()) {
