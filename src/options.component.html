@@ -1,6 +1,6 @@
 <h1>{{ title }}</h1>
 
-
+<p><b>Did you know?</b> You can have a floating Google Keep popup, detached from the menu bar, by right-clicking on the menu bar icon and choosing  <em>Open Google Keep in a floating popup</em></p>
 <div *ngIf="settings">
     <h2>Account</h2>
     <p>Choose the Google account you want to use Popup For Keep with.</p>
@@ -24,6 +24,7 @@
 <h3>Operations</h3>
 <button [disabled]="looking" (click)="lookForGoogleAccounts()">Look for Google Accounts</button>
 <p *ngIf="lookForGoogleAccountsError !== null"><em>{{lookForGoogleAccountsError}}</em></p>
+
 <h2>About</h2>
 <p>Hi, author here, thanks for using my little extension!</p>
 <p>If you have any <b>feedback</b> please feel free to reach out to me.</p>
