@@ -31,4 +31,17 @@ export class OptionsComponent {
         })
     }
 
+    looking = false
+    lookForGoogleAccountsError: string = null
+    lookForGoogleAccounts() {
+        this.looking = true
+        this.settingsService.forceAccountDiscovery().then(settings => {
+            this.settings = settings
+            this.looking = false
+        }).catch(() => {
+            this.lookForGoogleAccountsError = 'Unable to find available Google accounts at this time.'
+            this.looking = false
+        })
+    }
+
 }

@@ -54,7 +54,6 @@ export class PopupComponent {
     ngOnInit() {
         chrome.webRequest.onHeadersReceived.addListener(
             req => {
-                console.debug(req)
                 if (req.url.indexOf('https://keep.google.com/u/') === 0) {
                     this.show()
                 }

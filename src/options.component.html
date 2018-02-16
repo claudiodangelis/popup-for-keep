@@ -1,5 +1,6 @@
 <h1>{{ title }}</h1>
 
+
 <div *ngIf="settings">
     <h2>Account</h2>
     <p>Choose the Google account you want to use Popup For Keep with.</p>
@@ -20,6 +21,8 @@
 <div *ngIf="!settings">
     If you don't see any of your Google Accounts listed here it means that there might be a <b>bug</b>, so please let me know!
 </div>
+<h3>Operations</h3>
+<button [disabled]="looking" (click)="lookForGoogleAccounts()">Look for Google Accounts</button>
 <h2>About</h2>
 <p>Hi, author here, thanks for using my little extension!</p>
 <p>If you have any <b>feedback</b> please feel free to reach out to me.</p>

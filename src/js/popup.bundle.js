@@ -18171,14 +18171,14 @@ function legacySettingsAdapter(object) {
     // Do something with object
     return new Settings();
 }
-function LoadSettings() {
+function LoadSettings(options) {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get('settings', (storage) => {
             let settings = new Settings();
             if (typeof storage.settings !== 'undefined') {
                 settings.fromObject(storage.settings);
             }
-            if (settings.accounts.length === 0) {
+            if (settings.accounts.length === 0 || (typeof options !== 'undefined' && options.forceDiscovery === true)) {
                 account_1.DiscoverAccounts().then((accounts) => {
                     if (accounts.length === 0) {
                         return reject('no accounts found');
@@ -23810,6 +23810,7 @@ const settings_1 = __webpack_require__(6);
 let SettingsService = class SettingsService {
     constructor() { }
     getSettings() { return settings_1.LoadSettings(); }
+    forceAccountDiscovery() { return settings_1.LoadSettings({ forceDiscovery: true }); }
 };
 SettingsService = __decorate([
     core_1.Injectable(),
@@ -71182,7 +71183,6 @@ let PopupComponent = class PopupComponent {
     }
     ngOnInit() {
         chrome.webRequest.onHeadersReceived.addListener(req => {
-            console.debug(req);
             if (req.url.indexOf('https://keep.google.com/u/') === 0) {
                 this.show();
             }

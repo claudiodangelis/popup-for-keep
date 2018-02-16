@@ -46,14 +46,18 @@ function legacySettingsAdapter(object: any) : Settings {
     return new Settings()
 }
 
-export function LoadSettings(): Promise<Settings> {
+interface LoadSettingsOptions {
+    forceDiscovery: boolean
+}
+
+export function LoadSettings(options?: LoadSettingsOptions): Promise<Settings> {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get('settings', (storage) => {
             let settings = new Settings()
             if (typeof storage.settings !== 'undefined') {
                 settings.fromObject(storage.settings)
             }
-            if (settings.accounts.length === 0) {
+            if (settings.accounts.length === 0 || (typeof options !== 'undefined' && options.forceDiscovery === true)) {
                 DiscoverAccounts().then((accounts: Account[]) => {
                     if (accounts.length === 0) {
                         return reject('no accounts found')
