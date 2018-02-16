@@ -12,7 +12,7 @@
         "default_title": "Keep as a popup",
         "default_popup": "popup.html"
     },
-    "incognito": "not_allow",
+    "incognito": "not_allowed",
     "icons": {
         "16": "img/icon-16.png",
         "32": "img/icon-32.png",
