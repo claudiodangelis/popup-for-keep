@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 57);
+/******/ 	return __webpack_require__(__webpack_require__.s = 58);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71100,7 +71100,8 @@ Zone.__load_patch('PromiseRejectionEvent', function (global, Zone, api) {
 
 /***/ }),
 /* 50 */,
-/* 51 */
+/* 51 */,
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71115,7 +71116,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(49);
 const core_1 = __webpack_require__(1);
 const platform_browser_1 = __webpack_require__(11);
-const popup_component_1 = __webpack_require__(52);
+const popup_component_1 = __webpack_require__(53);
 const settings_service_1 = __webpack_require__(12);
 let AppModule = class AppModule {
 };
@@ -71142,7 +71143,7 @@ exports.AppModule = AppModule;
 
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71243,22 +71244,22 @@ exports.PopupComponent = PopupComponent;
 
 
 /***/ }),
-/* 53 */,
 /* 54 */,
 /* 55 */,
 /* 56 */,
-/* 57 */
+/* 57 */,
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(6);
-__webpack_require__(58);
-__webpack_require__(51);
+__webpack_require__(59);
+__webpack_require__(52);
 __webpack_require__(12);
-module.exports = __webpack_require__(52);
+module.exports = __webpack_require__(53);
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71266,7 +71267,7 @@ module.exports = __webpack_require__(52);
 Object.defineProperty(exports, "__esModule", { value: true });
 const platform_browser_dynamic_1 = __webpack_require__(22);
 const core_1 = __webpack_require__(1);
-const module_1 = __webpack_require__(51);
+const module_1 = __webpack_require__(52);
 core_1.enableProdMode();
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(module_1.AppModule);
 

@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 61);
+/******/ 	return __webpack_require__(__webpack_require__.s = 62);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71102,7 +71102,8 @@ Zone.__load_patch('PromiseRejectionEvent', function (global, Zone, api) {
 /* 50 */,
 /* 51 */,
 /* 52 */,
-/* 53 */
+/* 53 */,
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71117,7 +71118,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(49);
 const core_1 = __webpack_require__(1);
 const platform_browser_1 = __webpack_require__(11);
-const options_component_1 = __webpack_require__(54);
+const options_component_1 = __webpack_require__(55);
 const settings_service_1 = __webpack_require__(12);
 let AppOptionsModule = class AppOptionsModule {
 };
@@ -71144,7 +71145,7 @@ exports.AppOptionsModule = AppOptionsModule;
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71212,22 +71213,22 @@ exports.OptionsComponent = OptionsComponent;
 
 
 /***/ }),
-/* 55 */,
 /* 56 */,
 /* 57 */,
 /* 58 */,
 /* 59 */,
 /* 60 */,
-/* 61 */
+/* 61 */,
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(62);
-__webpack_require__(53);
-module.exports = __webpack_require__(54);
+__webpack_require__(63);
+__webpack_require__(54);
+module.exports = __webpack_require__(55);
 
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71235,7 +71236,7 @@ module.exports = __webpack_require__(54);
 Object.defineProperty(exports, "__esModule", { value: true });
 const platform_browser_dynamic_1 = __webpack_require__(22);
 const core_1 = __webpack_require__(1);
-const module_1 = __webpack_require__(53);
+const module_1 = __webpack_require__(54);
 core_1.enableProdMode();
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(module_1.AppOptionsModule);
 

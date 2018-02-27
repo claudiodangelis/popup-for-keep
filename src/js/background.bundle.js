@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 55);
+/******/ 	return __webpack_require__(__webpack_require__.s = 56);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -71,9 +71,69 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const createKeepTab = () => {
+    return new Promise(resolve => {
+        chrome.tabs.create({
+            url: 'https://keep.google.com'
+        }, keepTab => {
+            // poll
+            const poll = () => {
+                chrome.tabs.get(keepTab.id, tab => {
+                    if (tab.status === 'complete') {
+                        return resolve(tab);
+                    }
+                    setTimeout(poll, 500);
+                });
+            };
+            poll();
+        });
+    });
+};
+exports.getIdleTab = () => {
+    return new Promise((resolve, reject) => {
+        chrome.tabs.query({
+            status: 'complete', url: `https://keep.google.com/*`
+        }, tabs => {
+            if (tabs.length === 0) {
+                return createKeepTab().then(resolve).catch(reject);
+            }
+            const checked = [];
+            tabs.forEach(tab => {
+                chrome.tabs.sendMessage(tab.id, {
+                    command: 'is-idle'
+                }, response => {
+                    checked.push(tab.id);
+                    if (response === true) {
+                        // Note: if more than one tab is idle the line below
+                        // will be called multiple times, but it's not a
+                        // real problem because once this promise has
+                        // resolved, subsequent calls to `resolve() will be
+                        // ignored
+                        return resolve(tab);
+                    }
+                    // Is this the last open tab we are checking?
+                    if (checked.length === tabs.length) {
+                        // Yes, we need to create a new one
+                        return createKeepTab().then(resolve).catch(reject);
+                    }
+                });
+            });
+        });
+    });
+};
+
+
+/***/ }),
+
+/***/ 51:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 const settings_1 = __webpack_require__(6);
 const account_1 = __webpack_require__(7);
-const util_1 = __webpack_require__(63);
+const util_1 = __webpack_require__(50);
 class App {
     construct() {
         this.settings = new settings_1.Settings();
@@ -169,24 +229,25 @@ exports.App = App;
 
 /***/ }),
 
-/***/ 55:
+/***/ 56:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(7);
 __webpack_require__(6);
 __webpack_require__(50);
-module.exports = __webpack_require__(56);
+__webpack_require__(51);
+module.exports = __webpack_require__(57);
 
 
 /***/ }),
 
-/***/ 56:
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const app_1 = __webpack_require__(50);
+const app_1 = __webpack_require__(51);
 let app = new app_1.App();
 app.configure()
     .then(configured => {
@@ -276,66 +337,6 @@ function LoadSettings(options) {
     });
 }
 exports.LoadSettings = LoadSettings;
-
-
-/***/ }),
-
-/***/ 63:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const createKeepTab = () => {
-    return new Promise(resolve => {
-        chrome.tabs.create({
-            url: 'https://keep.google.com'
-        }, keepTab => {
-            // poll
-            const poll = () => {
-                chrome.tabs.get(keepTab.id, tab => {
-                    if (tab.status === 'complete') {
-                        return resolve(tab);
-                    }
-                    setTimeout(poll, 500);
-                });
-            };
-            poll();
-        });
-    });
-};
-exports.getIdleTab = () => {
-    return new Promise((resolve, reject) => {
-        chrome.tabs.query({
-            status: 'complete', url: `https://keep.google.com/*`
-        }, tabs => {
-            if (tabs.length === 0) {
-                return createKeepTab().then(resolve).catch(reject);
-            }
-            const checked = [];
-            tabs.forEach(tab => {
-                chrome.tabs.sendMessage(tab.id, {
-                    command: 'is-idle'
-                }, response => {
-                    checked.push(tab.id);
-                    if (response === true) {
-                        // Note: if more than one tab is idle the line below
-                        // will be called multiple times, but it's not a
-                        // real problem because once this promise has
-                        // resolved, subsequent calls to `resolve() will be
-                        // ignored
-                        return resolve(tab);
-                    }
-                    // Is this the last open tab we are checking?
-                    if (checked.length === tabs.length) {
-                        // Yes, we need to create a new one
-                        return createKeepTab().then(resolve).catch(reject);
-                    }
-                });
-            });
-        });
-    });
-};
 
 
 /***/ }),

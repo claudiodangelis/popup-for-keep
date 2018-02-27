@@ -1,38 +1,53 @@
-<h1>{{ title }}</h1>
-
-<p><b>Did you know?</b> You can have a floating Google Keep popup, detached from the menu bar, by right-clicking on the menu bar icon and choosing  <em>Open Google Keep in a floating popup</em></p>
-<div *ngIf="settings">
-    <h2>Account</h2>
-    <p>Choose the Google account you want to use Popup For Keep with.</p>
-    <div *ngFor="let account of settings.accounts">
-        <input [checked]="account.index === settings.lastUsedAccount" id="account-{{account.index}}" type="radio" name="account" value="{{account.index}}" (click)="chooseAccount(account.index)"/>
-        <label for="account-{{account.index}}"><img src="{{account.imageSrc}}"/><br/><em>{{account.user}}</em></label>
+<div class="container">
+    <h1>{{ title }}</h1>
+    <p><b>Did you know?</b> You can have a floating Google Keep popup, detached from the menu bar, by right-clicking on the menu bar icon and choosing  <em>Open Google Keep in a floating popup</em>.</p>
+    <div *ngIf="settings">
+        <br/>
+        <h2>Account</h2>
+        <p>Choose the Google account you want to use Popup For Keep with.</p>
+        <div *ngFor="let account of settings.accounts">
+            <input [checked]="account.index === settings.lastUsedAccount" id="account-{{account.index}}" type="radio" name="account" value="{{account.index}}" (click)="chooseAccount(account.index)"/>
+            <label for="account-{{account.index}}"><img src="{{account.imageSrc}}"/><br/><em>{{account.user}}</em></label>
+        </div>
+        <hr>
+        <h2>Menu icon</h2>
+        <input [checked]="settings.icon === 'img/mono-icon-32.png'" type="radio" name="icon" id="icon-mono" (click)="chooseIcon(1)">
+        <label for="icon-mono">
+            <img src="img/mono-icon-32.png"/>
+        </label>
+        <input [checked]="settings.icon === 'img/icon-32.png'" type="radio" name="icon" id="icon-bi" (click)="chooseIcon(0)">
+        <label for="icon-bi">
+            <img src="img/icon-32.png"/>
+        </label>
     </div>
-    <h2>Menu icon</h2>
-    <input [checked]="settings.icon === 'img/mono-icon-32.png'" type="radio" name="icon" id="icon-mono" (click)="chooseIcon(1)">
-    <label for="icon-mono">
-        <img src="img/mono-icon-32.png"/>
-    </label>
-    <input [checked]="settings.icon === 'img/icon-32.png'" type="radio" name="icon" id="icon-bi" (click)="chooseIcon(0)">
-    <label for="icon-bi">
-        <img src="img/icon-32.png"/>
-    </label>
-</div>
-<div *ngIf="!settings">
-    If you don't see any of your Google Accounts listed here it means that there might be a <b>bug</b>, so please let me know!
-</div>
-<h3>Operations</h3>
-<button [disabled]="looking" (click)="lookForGoogleAccounts()">Look for Google Accounts</button>
-<p *ngIf="lookForGoogleAccountsError !== null"><em>{{lookForGoogleAccountsError}}</em></p>
+    <div *ngIf="!settings">
+        If you don't see any of your Google Accounts listed here it means that there might be a <b>bug</b>, so please let me know!
+    </div>
+    <hr/>
+    <h3>Operations</h3>
+    <p>If you don't seer your account in the above "Accounts" section, click the button below to start an account discovery. This operation is likely to succeed in case you've just added a new Google Account, otherwise there might be a different problem.</p>
+    <p><b>Note:</b> Google Accounts discovery is automatically performed every 2 hours.</p>
+    <button  class="btn btn-primary" [disabled]="looking" (click)="lookForGoogleAccounts()">Look for new Google Accounts</button>
+    <p *ngIf="lookForGoogleAccountsError !== null"><em>{{lookForGoogleAccountsError}}</em></p>
+    <hr>
+    <h2>About the author</h2>
+    <p>Hi, I'm Claudio, thanks for using my little extension!</p>
+    <p>If you have any <b>feedback</b> please feel free to reach out to me.</p>
+    <p>Some useful links to report bug, request features or just to say hi:</p>
+    <ul>
+        <li>The  <a target="_blank" href="https://github.com/claudiodangelis/popup-for-keep">popup-for-keep</a> project on Github</li>
+        <li>My email address  <a target="_blank" href="mailto:claudiodangelis@gmail.com">claudiodangelis@gmail.com</a></li>
+        <li>My twitter handle <a target="_blank" href="https://twitter.com/daw985">@daw985</a></li>
+    </ul>
+    <em>&#8212; Cheers, <a target="_blank" href="https://claudiodangelis.com">Claudio d'Angelis</a></em>
+    <hr>
+    <h3>Credits</h3>
+    <p>This software is distributed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>, and it's built on top of:
+    </p>
+    <ul>
+        <li><a href="https://angular.io">Angular.io</a></li>
+        <li><a href="https://typescriptlang">TypeScript</a></li>
+        <li><a href="https://getbootstrap.com">Bootstrap</a></li>
+    </ul>
 
-<h2>About</h2>
-<p>Hi, author here, thanks for using my little extension!</p>
-<p>If you have any <b>feedback</b> please feel free to reach out to me.</p>
-<p>Some useful links to report bug, request features or just to say hi:</p>
-<ul>
-    <li>The  <a target="_blank" href="https://github.com/claudiodangelis/popup-for-keep">popup-for-keep</a> project on Github</li>
-    <li>My email address  <a target="_blank" href="mailto:claudiodangelis@gmail.com">claudiodangelis@gmail.com</a></li>
-    <li>My twitter handle <a target="_blank" href="https://twitter.com/daw985">@daw985</a></li>
-</ul>
-<em>&#8212; Cheers, <a target="_blank" href="https://claudiodangelis.com">Claudio d'Angelis</a></em>
-
+</div>
