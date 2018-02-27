@@ -84,6 +84,13 @@ const DOM = {
     textNode: 'body > div.notes-container.RfDI4d-sKfxWe > div.RfDI4d-bN97Pc.ogm-kpc > div.h1U9Be-xhiy4 > div.IZ65Hb-n0tgWb.IZ65Hb-QQhtn > div.IZ65Hb-TBnied.HLvlvd-h1U9Be > div.IZ65Hb-s2gQvd > div.notranslate.IZ65Hb-YPqjbf.h1U9Be-YPqjbf:not(.LwH6nd)',
     titleWrapper: 'body > div.notes-container.RfDI4d-sKfxWe > div.RfDI4d-bN97Pc > div.h1U9Be-xhiy4 > div.IZ65Hb-n0tgWb.IZ65Hb-QQhtn > div.IZ65Hb-TBnied.HLvlvd-h1U9Be > div.IZ65Hb-s2gQvd > div.notranslate.IZ65Hb-YPqjbf.r4nke-YPqjbf.LwH6nd'
 };
+const isIdle = () => {
+    // If google keep "is idle", meaning that the user is not doing anything
+    // like viewing or editing a node, then we can programmatically create the
+    return new Promise(resolve => {
+        resolve(document.querySelector(DOM.textNode) === null);
+    });
+};
 const createNote = (note) => {
     return new Promise((resolve, reject) => {
         // Expand the box
@@ -145,8 +152,14 @@ const createNote = (note) => {
     });
 };
 chrome.runtime.onMessage.addListener((body, _, sendResponse) => {
-    createNote(body).then(sendResponse).catch(sendResponse);
-    window.history.pushState(null, null, '/keep');
+    if (body.command === 'is-idle') {
+        isIdle().then(sendResponse).catch(() => {
+            sendResponse(false);
+        });
+    }
+    else if (body.command === 'create-note') {
+        createNote(body.argument).then(sendResponse).catch(sendResponse);
+    }
     return true;
 });
 

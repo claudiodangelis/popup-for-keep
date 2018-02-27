@@ -73,6 +73,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const settings_1 = __webpack_require__(6);
 const account_1 = __webpack_require__(7);
+const util_1 = __webpack_require__(63);
 class App {
     construct() {
         this.settings = new settings_1.Settings();
@@ -98,27 +99,21 @@ class App {
                     onclick: (info, tab) => {
                         let firedOnce = false;
                         const title = tab.title;
-                        const text = typeof info.selectionText === 'undefined'
-                            ? tab.url
-                            : `${info.selectionText}\n\n${tab.url}`;
-                        chrome.tabs.create({
-                            url: `https://keep.google.com/u/${this.userIndex}/?create_note`
-                        }, target => {
-                            chrome.tabs.onUpdated.addListener(function listener(id, info) {
-                                if (id === target.id && info.status === 'complete') {
-                                    if (firedOnce === true) {
-                                        return;
-                                    }
-                                    firedOnce = true;
-                                    chrome.tabs.sendMessage(target.id, {
-                                        title: title, text: text
-                                    }, {}, response => {
-                                        if (typeof response !== 'undefined' && response.status === 'done') {
-                                            chrome.tabs.onUpdated.removeListener(listener);
-                                        }
-                                    });
+                        let text = tab.url;
+                        if (typeof info.selectionText !== 'undefined') {
+                            text = `${info.selectionText}\n\n${tab.url}`;
+                        }
+                        util_1.getIdleTab().then(tab => {
+                            chrome.tabs.sendMessage(tab.id, {
+                                command: 'create-note',
+                                argument: {
+                                    title: title, text: text
                                 }
+                            }, () => {
+                                chrome.tabs.update(tab.id, { active: true });
                             });
+                        }).catch(err => {
+                            console.error('error while getting a keep tab', err);
                         });
                     }
                 });
@@ -281,6 +276,66 @@ function LoadSettings(options) {
     });
 }
 exports.LoadSettings = LoadSettings;
+
+
+/***/ }),
+
+/***/ 63:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const createKeepTab = () => {
+    return new Promise(resolve => {
+        chrome.tabs.create({
+            url: 'https://keep.google.com'
+        }, keepTab => {
+            // poll
+            const poll = () => {
+                chrome.tabs.get(keepTab.id, tab => {
+                    if (tab.status === 'complete') {
+                        return resolve(tab);
+                    }
+                    setTimeout(poll, 500);
+                });
+            };
+            poll();
+        });
+    });
+};
+exports.getIdleTab = () => {
+    return new Promise((resolve, reject) => {
+        chrome.tabs.query({
+            status: 'complete', url: `https://keep.google.com/*`
+        }, tabs => {
+            if (tabs.length === 0) {
+                return createKeepTab().then(resolve).catch(reject);
+            }
+            const checked = [];
+            tabs.forEach(tab => {
+                chrome.tabs.sendMessage(tab.id, {
+                    command: 'is-idle'
+                }, response => {
+                    checked.push(tab.id);
+                    if (response === true) {
+                        // Note: if more than one tab is idle the line below
+                        // will be called multiple times, but it's not a
+                        // real problem because once this promise has
+                        // resolved, subsequent calls to `resolve() will be
+                        // ignored
+                        return resolve(tab);
+                    }
+                    // Is this the last open tab we are checking?
+                    if (checked.length === tabs.length) {
+                        // Yes, we need to create a new one
+                        return createKeepTab().then(resolve).catch(reject);
+                    }
+                });
+            });
+        });
+    });
+};
 
 
 /***/ }),
