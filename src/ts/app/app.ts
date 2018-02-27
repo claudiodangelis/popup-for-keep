@@ -43,6 +43,8 @@ export class App {
                                 argument: {
                                     title: title, text: text
                                 }
+                            }, () => {
+                                chrome.tabs.update(tab.id, {active: true})
                             })
                         }).catch(err => {
                             console.error('error while getting a keep tab', err)

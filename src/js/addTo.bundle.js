@@ -88,9 +88,8 @@ const DOM = {
 const isIdle = () => {
     // If google keep "is idle", meaning that the user is not doing anything
     // like viewing or editing a node, then we can programmatically create the
-    // note
     return new Promise(resolve => {
-        resolve(true);
+        resolve(document.querySelector(DOM.textNode) === null);
     });
 };
 const createNote = (note) => {
