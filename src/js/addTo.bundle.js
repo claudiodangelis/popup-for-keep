@@ -76,6 +76,7 @@ module.exports = __webpack_require__(60);
 /***/ 60:
 /***/ (function(module, exports) {
 
+console.debug('addTo has been injected');
 // TODO: There is some duplicate code that can be wrapped together
 const DOM = {
     mainWrapper: 'body > div.notes-container.RfDI4d-sKfxWe > div.RfDI4d-bN97Pc > div.h1U9Be-xhiy4.qAWA2 > div.IZ65Hb-n0tgWb > div.IZ65Hb-TBnied.HLvlvd-h1U9Be > div.IZ65Hb-s2gQvd > div.notranslate.IZ65Hb-YPqjbf.h1U9Be-YPqjbf.LwH6nd',
@@ -83,6 +84,14 @@ const DOM = {
     titleNode: 'body > div.notes-container.RfDI4d-sKfxWe > div.RfDI4d-bN97Pc.ogm-kpc > div.h1U9Be-xhiy4 > div.IZ65Hb-n0tgWb.IZ65Hb-QQhtn > div.IZ65Hb-TBnied.HLvlvd-h1U9Be > div.IZ65Hb-s2gQvd > div.notranslate.IZ65Hb-YPqjbf.r4nke-YPqjbf:not(.LwH6nd)',
     textNode: 'body > div.notes-container.RfDI4d-sKfxWe > div.RfDI4d-bN97Pc.ogm-kpc > div.h1U9Be-xhiy4 > div.IZ65Hb-n0tgWb.IZ65Hb-QQhtn > div.IZ65Hb-TBnied.HLvlvd-h1U9Be > div.IZ65Hb-s2gQvd > div.notranslate.IZ65Hb-YPqjbf.h1U9Be-YPqjbf:not(.LwH6nd)',
     titleWrapper: 'body > div.notes-container.RfDI4d-sKfxWe > div.RfDI4d-bN97Pc > div.h1U9Be-xhiy4 > div.IZ65Hb-n0tgWb.IZ65Hb-QQhtn > div.IZ65Hb-TBnied.HLvlvd-h1U9Be > div.IZ65Hb-s2gQvd > div.notranslate.IZ65Hb-YPqjbf.r4nke-YPqjbf.LwH6nd'
+};
+const isIdle = () => {
+    // If google keep "is idle", meaning that the user is not doing anything
+    // like viewing or editing a node, then we can programmatically create the
+    // note
+    return new Promise(resolve => {
+        resolve(true);
+    });
 };
 const createNote = (note) => {
     return new Promise((resolve, reject) => {
@@ -145,8 +154,14 @@ const createNote = (note) => {
     });
 };
 chrome.runtime.onMessage.addListener((body, _, sendResponse) => {
-    createNote(body).then(sendResponse).catch(sendResponse);
-    window.history.pushState(null, null, '/keep');
+    if (body.command === 'is-idle') {
+        isIdle().then(sendResponse).catch(() => {
+            sendResponse(false);
+        });
+    }
+    else if (body.command === 'create-note') {
+        createNote(body.argument).then(sendResponse).catch(sendResponse);
+    }
     return true;
 });
 

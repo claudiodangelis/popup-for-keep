@@ -1,5 +1,6 @@
 import { Settings, LoadSettings } from '../common/settings'
 import { Account, DiscoverAccounts } from '../common/account'
+import { getIdleTab } from './util'
 
 export class App {
     settings: Settings
@@ -32,28 +33,19 @@ export class App {
                     onclick: (info, tab) => {
                         let firedOnce = false
                         const title = tab.title
-                        const text = typeof info.selectionText === 'undefined'
-                            ? tab.url
-                            : `${info.selectionText}\n\n${tab.url}`
-
-                        chrome.tabs.create({
-                            url: `https://keep.google.com/u/${this.userIndex}/?create_note`
-                        }, target => {
-                            chrome.tabs.onUpdated.addListener(function listener(id, info) {
-                                if (id === target.id && info.status === 'complete') {
-                                    if (firedOnce === true) {
-                                        return
-                                    }
-                                    firedOnce = true
-                                    chrome.tabs.sendMessage(target. id, {
-                                        title: title, text: text
-                                    }, {}, response => {
-                                        if (typeof response !== 'undefined' && response.status === 'done') {
-                                            chrome.tabs.onUpdated.removeListener(listener)
-                                        }
-                                    })
+                        let text = tab.url
+                        if (typeof info.selectionText !== 'undefined') {
+                            text = `${info.selectionText}\n\n${tab.url}`
+                        }
+                        getIdleTab().then(tab => {
+                            chrome.tabs.sendMessage(tab.id, {
+                                command: 'create-note',
+                                argument: {
+                                    title: title, text: text
                                 }
                             })
+                        }).catch(err => {
+                            console.error('error while getting a keep tab', err)
                         })
                     }
                 })

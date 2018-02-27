@@ -5,8 +5,10 @@ module.exports = {
         background: [
             path.join(__dirname, 'src/ts/common/account.ts'),
             path.join(__dirname, 'src/ts/common/settings.ts'),
+            path.join(__dirname, 'src/ts/app/util.ts'),
             path.join(__dirname, 'src/ts/app/app.ts'),
             path.join(__dirname, 'src/ts/app/background.ts')
+
         ],
         popup: [
             path.join(__dirname, 'src/ts/common/settings.ts'),
