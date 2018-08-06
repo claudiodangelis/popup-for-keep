@@ -60,12 +60,81 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 56);
+/******/ 	return __webpack_require__(__webpack_require__.s = 58);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 50:
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+let buffer = [];
+class Logger {
+    get all() {
+        return buffer;
+    }
+    log(level, tag, msg) {
+        if (buffer.length >= 100) {
+            buffer.shift();
+        }
+        buffer.push({
+            level: level.toUpperCase(),
+            message: msg,
+            tag: tag.toUpperCase(),
+            timestamp: new Date().toISOString()
+        });
+        chrome.storage.sync.set({ logs: buffer }, () => { });
+    }
+    clear() {
+        buffer = [];
+        chrome.storage.sync.remove('logs', () => { });
+    }
+    info(tag, msg) {
+        this.log('info', tag, msg);
+    }
+    debug(tag, msg) {
+        this.log('debug', tag, msg);
+    }
+    error(tag, msg) {
+        this.log('error', tag, msg);
+    }
+    constructor() {
+        if (buffer.length === 0) {
+            chrome.storage.sync.get('logs', storage => {
+                if (typeof storage.logs === 'undefined') {
+                    return buffer = [];
+                }
+                if (!storage.logs.length) {
+                    return buffer = [];
+                }
+                storage.logs.reverse().forEach(log => {
+                    if (typeof log.tag !== 'string') {
+                        return;
+                    }
+                    if (typeof log.message !== 'string') {
+                        return;
+                    }
+                    if (typeof log.level !== 'string') {
+                        return;
+                    }
+                    if (typeof log.timestamp !== 'string') {
+                        return;
+                    }
+                    buffer.push(log);
+                });
+            });
+        }
+    }
+}
+exports.Logger = Logger;
+
+
+/***/ }),
+
+/***/ 51:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -125,7 +194,7 @@ exports.getIdleTab = () => {
 
 /***/ }),
 
-/***/ 51:
+/***/ 52:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -133,7 +202,7 @@ exports.getIdleTab = () => {
 Object.defineProperty(exports, "__esModule", { value: true });
 const settings_1 = __webpack_require__(6);
 const account_1 = __webpack_require__(7);
-const util_1 = __webpack_require__(50);
+const util_1 = __webpack_require__(51);
 class App {
     construct() {
         this.settings = new settings_1.Settings();
@@ -229,25 +298,25 @@ exports.App = App;
 
 /***/ }),
 
-/***/ 56:
+/***/ 58:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(7);
 __webpack_require__(6);
-__webpack_require__(50);
 __webpack_require__(51);
-module.exports = __webpack_require__(57);
+__webpack_require__(52);
+module.exports = __webpack_require__(59);
 
 
 /***/ }),
 
-/***/ 57:
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const app_1 = __webpack_require__(51);
+const app_1 = __webpack_require__(52);
 let app = new app_1.App();
 app.configure()
     .then(configured => {
@@ -347,6 +416,7 @@ exports.LoadSettings = LoadSettings;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const logger_1 = __webpack_require__(11);
 class Account {
     constructor() {
         this.user = 'unknown';
@@ -361,9 +431,23 @@ function createAccountFromFragment(html, index) {
     return new Promise(resolve => {
         let parser = new DOMParser();
         let doc = parser.parseFromString(html, 'text/html');
+        // This is for debug purposes only
+        let debugEmailMatches = doc.documentElement.innerHTML.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+        if (debugEmailMatches !== null) {
+            debugEmailMatches.forEach(email => {
+                l.debug('discovery', `email found in the raw document: ${email}`);
+            });
+        }
         let infoNode = doc.querySelector('[href^="https://accounts.google.com/SignOutOptions"');
+        if (infoNode === null) {
+            l.error('discovery', 'info node is null');
+        }
+        else {
+            l.info('discovery', `parsing info: ${infoNode.innerHTML}`);
+        }
         let info = infoNode.getAttribute('aria-label');
         account.user = info;
+        l.info('discovery', `parsing email from: ${info}`);
         let emailMatches = info.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
         if (emailMatches.length > 0) {
             account.email = emailMatches[0];
@@ -375,11 +459,13 @@ function createAccountFromFragment(html, index) {
         resolve(account);
     });
 }
+const l = new logger_1.Logger();
 function DiscoverAccounts() {
     let accounts = [];
     return new Promise((resolve, reject) => {
         let index = 0;
         let next = () => {
+            l.info('discover-accounts', `discovering account: ${index}`);
             let xhr = new XMLHttpRequest();
             xhr.open('get', `https://keep.google.com/u/${index}/`, true);
             xhr.onerror = reject;
@@ -397,6 +483,7 @@ function DiscoverAccounts() {
                         });
                     }
                     else {
+                        l.info('discover-accounts', `completed, found: ${accounts.length}`);
                         resolve(accounts);
                     }
                 }
