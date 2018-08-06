@@ -16,7 +16,7 @@ import { SettingsService } from './services/settings.service'
         PopupComponent,
     ],
     providers: [
-        SettingsService
+        SettingsService,
     ],
     bootstrap: [
         PopupComponent,

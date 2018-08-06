@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { OptionsComponent } from './options.component'
 import { SettingsService } from '../client/services/settings.service'
+import { LoggerService } from '../client/services/logger.service'
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { SettingsService } from '../client/services/settings.service'
         OptionsComponent
     ],
     providers: [
-        SettingsService
+        SettingsService,
+        LoggerService,
     ],
     bootstrap: [
         OptionsComponent

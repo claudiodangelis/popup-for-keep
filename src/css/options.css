@@ -1,3 +1,7 @@
 body {
     padding: 10px;
 }
+
+pre {
+    white-space: pre-wrap;
+}

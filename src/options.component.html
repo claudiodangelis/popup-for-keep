@@ -21,7 +21,7 @@
         </label>
     </div>
     <div *ngIf="!settings">
-        If you don't see any of your Google Accounts listed here it means that there might be a <b>bug</b>, so please let me know!
+        If you don't see any of your Google Accounts listed here it means that there might be a <b>bug</b>, so please scroll down to the page, click <em>Show System Logs</em> and follow the instructions.
     </div>
     <hr/>
     <h3>Operations</h3>
@@ -30,7 +30,7 @@
     <button  class="btn btn-primary" [disabled]="looking" (click)="lookForGoogleAccounts()">Look for new Google Accounts</button>
     <p *ngIf="lookForGoogleAccountsError !== null"><em>{{lookForGoogleAccountsError}}</em></p>
     <hr>
-    <h2>About the author</h2>
+    <h5>About the author</h5>
     <p>Hi, I'm Claudio, thanks for using my little extension!</p>
     <p>If you have any <b>feedback</b> please feel free to reach out to me.</p>
     <p>Some useful links to report bug, request features or just to say hi:</p>
@@ -41,7 +41,7 @@
     </ul>
     <em>&#8212; Cheers, <a target="_blank" href="https://claudiodangelis.com">Claudio d'Angelis</a></em>
     <hr>
-    <h3>Credits</h3>
+    <h5>Credits</h5>
     <p>This software is distributed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>, and it's built on top of:
     </p>
     <ul>
@@ -49,5 +49,25 @@
         <li><a href="https://typescriptlang">TypeScript</a></li>
         <li><a href="https://getbootstrap.com">Bootstrap</a></li>
     </ul>
-
+    <hr/>
+    <h4>Debug</h4>
+    <p>
+        <button class="btn btn-primary" (click)="toggleLogs()">
+            <span *ngIf="logsOpen">Hide System Logs</span>
+            <span *ngIf="!logsOpen">Show System Logs</span>
+        </button>
+    </p>
+    <div *ngIf="logsOpen">
+        <p>
+            <button class="btn btn-sm btn-default" (click)="refreshLogs()">Refresh Logs</button>
+            <button class="btn btn-sm btn-warning" (click)="clearLogs()">Clear Logs</button>
+            <button class="btn btn-sm btn-success" (click)="sendLogs()">Send Logs</button>
+        </p>
+        <p><small><em>
+            <b>Important:</b> by clicking <em>Send Logs</em> a new Gmail tab or email software window will open and a draft of email will be created to be sent to the author. <br/>
+            The content will not contain any sensitive data, however, make sure to <b>review it carefully</b> and remove parts that you don't feel they should be shared with the author before actually sending the email.
+        </em></small></p>
+        <pre>{{logs}}</pre>
+        <p *ngIf="logs === ''"><em>(logs are empty, click the "Look for New Google Accounts" button above, then click "Refresh Logs")</em></p>
+    </div>
 </div>
