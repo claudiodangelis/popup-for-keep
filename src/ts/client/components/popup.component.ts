@@ -13,6 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser'
     <div *ngIf="error !== null" style="padding: 10px;">
         <h2>Error :-(</h2>
         <p>There has been an error when trying to load data for your Google Keep account.</p>
+        <p>Error message: <b>{{error}}</b></p>
         <p>What to do:</p>
         <ul>
             <li>Make sure that you are logged into Google Keep</li>
@@ -42,7 +43,7 @@ export class PopupComponent {
             this.settings = settings
             this.googleKeepURL = this.sanitizer.bypassSecurityTrustResourceUrl('https://keep.google.com/u/' + settings.lastUsedAccount)
         }).catch((err) => {
-            this.error = err
+            this.error = JSON.stringify(err)
         })
     }
 
