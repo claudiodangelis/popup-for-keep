@@ -11,7 +11,7 @@ export class Logger {
         return buffer
     }
     private log(level: string, tag: string, msg: string) {
-        if (buffer.length >= 100) {
+        if (buffer.length >= 10) {
             buffer.shift()
         }
         buffer.push({
@@ -20,7 +20,17 @@ export class Logger {
             tag: tag.toUpperCase(),
             timestamp: new Date().toISOString()
         })
-        chrome.storage.sync.set({logs: buffer}, () => {})
+        chrome.storage.sync.set({logs: buffer}, () => {
+            if (chrome.runtime.lastError) {
+                if (chrome.runtime.lastError.message === 'QUOTA_BYTES_PER_ITEM quota exceeded') {
+                    chrome.storage.sync.set({
+                        logs: [],
+                    }, () => {})
+                } else {
+                    console.error('caught error:', chrome.runtime.lastError)
+                }
+            }
+        })
     }
     clear() {
         buffer = []
