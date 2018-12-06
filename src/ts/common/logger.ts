@@ -37,12 +37,15 @@ export class Logger {
         chrome.storage.sync.remove('logs', () => {})
     }
     info(tag: string, msg: string) {
+        console.info(tag, msg)
         this.log('info', tag, msg)
     }
     debug(tag: string, msg: string) {
+        console.debug(tag, msg)
         this.log('debug', tag, msg)
     }
     error(tag: string, msg: string) {
+        console.error(tag, msg)
         this.log('error', tag, msg)
     }
     constructor() {
