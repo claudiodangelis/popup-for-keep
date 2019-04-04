@@ -25,10 +25,11 @@
     </div>
     <hr/>
     <h3>Operations</h3>
-    <p>If you don't seer your account in the above "Accounts" section, click the button below to start an account discovery. This operation is likely to succeed in case you've just added a new Google Account, otherwise there might be a different problem.</p>
+    <p>If you don't see your account in the above "Accounts" section, click the button below to start an account discovery. This operation is likely to succeed in case you've just added a new Google Account, otherwise there might be a different problem.</p>
     <p><b>Note:</b> Google Accounts discovery is automatically performed every 2 hours.</p>
     <button  class="btn btn-primary" [disabled]="looking" (click)="lookForGoogleAccounts()">Look for new Google Accounts</button>
     <p *ngIf="lookForGoogleAccountsError !== null"><em>{{lookForGoogleAccountsError}}</em></p>
+    <p><a class="btn btn-success" href="https://paypal.me/claudiodangelis/10usd?rd=donate">Support Development</a></p>
     <hr>
     <h4>Debug</h4>
     <p>
