@@ -29,6 +29,7 @@
     <p><b>Note:</b> Google Accounts discovery is automatically performed every 2 hours.</p>
     <button  class="btn btn-primary" [disabled]="looking" (click)="lookForGoogleAccounts()">Look for new Google Accounts</button>
     <p *ngIf="lookForGoogleAccountsError !== null"><em>{{lookForGoogleAccountsError}}</em></p>
+    <br/>
     <p><a class="btn btn-success" href="https://paypal.me/claudiodangelis/10usd?rd=donate">Support Development</a></p>
     <hr>
     <h4>Debug</h4>
