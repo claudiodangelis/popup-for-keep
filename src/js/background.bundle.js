@@ -77,7 +77,7 @@ class Logger {
         return buffer;
     }
     log(level, tag, msg) {
-        if (buffer.length >= 100) {
+        if (buffer.length >= 10) {
             buffer.shift();
         }
         buffer.push({
@@ -86,19 +86,33 @@ class Logger {
             tag: tag.toUpperCase(),
             timestamp: new Date().toISOString()
         });
-        chrome.storage.sync.set({ logs: buffer }, () => { });
+        chrome.storage.sync.set({ logs: buffer }, () => {
+            if (chrome.runtime.lastError) {
+                if (chrome.runtime.lastError.message === 'QUOTA_BYTES_PER_ITEM quota exceeded') {
+                    chrome.storage.sync.set({
+                        logs: [],
+                    }, () => { });
+                }
+                else {
+                    console.error('caught error:', chrome.runtime.lastError);
+                }
+            }
+        });
     }
     clear() {
         buffer = [];
         chrome.storage.sync.remove('logs', () => { });
     }
     info(tag, msg) {
+        console.info(tag, msg);
         this.log('info', tag, msg);
     }
     debug(tag, msg) {
+        console.debug(tag, msg);
         this.log('debug', tag, msg);
     }
     error(tag, msg) {
+        console.error(tag, msg);
         this.log('error', tag, msg);
     }
     constructor() {
@@ -432,11 +446,13 @@ function createAccountFromFragment(html, index) {
         let parser = new DOMParser();
         let doc = parser.parseFromString(html, 'text/html');
         // This is for debug purposes only
-        let debugEmailMatches = doc.documentElement.innerHTML.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
-        if (debugEmailMatches !== null) {
-            debugEmailMatches.forEach(email => {
-                l.debug('discovery', `email found in the raw document: ${email}`);
-            });
+        if (doc.documentElement.innerHTML) {
+            let debugEmailMatches = doc.documentElement.innerHTML.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+            if (debugEmailMatches !== null) {
+                debugEmailMatches.forEach(email => {
+                    l.debug('discovery', `email found in the raw document: ${email}`);
+                });
+            }
         }
         let infoNode = doc.querySelector('[href^="https://accounts.google.com/SignOutOptions"');
         if (infoNode === null) {
@@ -446,6 +462,14 @@ function createAccountFromFragment(html, index) {
             l.info('discovery', `parsing info: ${infoNode.innerHTML}`);
         }
         let info = infoNode.getAttribute('aria-label');
+        // If info is null it means that the account is a Google Suite account
+        if (info === null) {
+            // Check if there is the element we're looking for
+            let node = infoNode.querySelector('a[aria-label*="Google Account"], a[aria-label*="google-account"]');
+            if (node) {
+                info = node.getAttribute('aria-label');
+            }
+        }
         account.user = info;
         l.info('discovery', `parsing email from: ${info}`);
         let emailMatches = info.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
@@ -465,11 +489,17 @@ function DiscoverAccounts() {
     return new Promise((resolve, reject) => {
         let index = 0;
         let next = () => {
+            console.debug('looking for...');
             l.info('discover-accounts', `discovering account: ${index}`);
             let xhr = new XMLHttpRequest();
             xhr.open('get', `https://keep.google.com/u/${index}/`, true);
-            xhr.onerror = reject;
+            xhr.onerror = err => {
+                console.error('err', JSON.stringify(err));
+                l.error('discover-accounts', JSON.stringify(err));
+                return resolve(accounts);
+            };
             xhr.onreadystatechange = () => {
+                console.debug('status:', xhr.status);
                 if (xhr.readyState === xhr.DONE && xhr.status === 200) {
                     if (xhr.responseURL.split('/')[4] === index.toString()) {
                         // Found
@@ -478,6 +508,7 @@ function DiscoverAccounts() {
                             index++;
                             next();
                         }).catch((err) => {
+                            console.debug('err', err);
                             index++;
                             next();
                         });
