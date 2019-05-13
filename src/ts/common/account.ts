@@ -37,7 +37,7 @@ function createAccountFromFragment(html: string, index: number): Promise<Account
         // If info is null it means that the account is a Google Suite account
         if (info === null) {
             // Check if there is the element we're looking for
-            let node = infoNode.querySelector('a[aria-label^="Google Account"]')
+            let node = infoNode.querySelector('a[aria-label*="Google Account"], a[aria-label*="google-account"]')
             if (node) {
                 info = node.getAttribute('aria-label')
             }
@@ -50,7 +50,7 @@ function createAccountFromFragment(html: string, index: number): Promise<Account
         }
         var imageNode = doc.querySelector(`a[href$="?authuser=${index}"] > img`)
         if (imageNode !== null) {
-          account.imageSrc = imageNode.getAttribute('data-src')
+            account.imageSrc = imageNode.getAttribute('data-src')
         }
         resolve(account)
     })
@@ -86,7 +86,7 @@ export function DiscoverAccounts(): Promise<Account[]> {
                             index++
                             next()
                         })
-                    } else{
+                    } else {
                         l.info('discover-accounts', `completed, found: ${accounts.length}`)
                         resolve(accounts)
                     }
