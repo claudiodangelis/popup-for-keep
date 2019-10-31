@@ -1,6 +1,6 @@
 {
   "name": "popup-for-keep",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "main": "index.js",
   "repository": "https://github.com/claudiodangelis/google-keep-as-popup",
   "author": "Claudio d'Angelis <claudiodangelis@gmail.com>",
