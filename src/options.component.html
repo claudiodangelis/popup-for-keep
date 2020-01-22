@@ -29,10 +29,6 @@
     <p><b>Note:</b> Google Accounts discovery is automatically performed every 2 hours.</p>
     <p><button  class="btn btn-primary" [disabled]="looking" (click)="lookForGoogleAccounts()">Look for new Google Accounts</button></p>
     <p *ngIf="lookForGoogleAccountsError !== null"><em>{{lookForGoogleAccountsError}}</em></p>
-    <p><a class="btn btn-success" href="https://paypal.me/claudiodangelis/10usd?rd=donate">Support Development</a></p>
-    <a href="https://www.buymeacoffee.com/claudiodangelis" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
-    <hr>
-    <h4>Debug</h4>
     <p>
         <button class="btn btn-primary" (click)="toggleLogs()">
             <span *ngIf="logsOpen">Hide System Logs</span>
@@ -52,7 +48,15 @@
         <pre>{{logs}}</pre>
         <p *ngIf="logs === ''"><em>(logs are empty, click the "Look for New Google Accounts" button above, then click "Refresh Logs")</em></p>
     </div>
-    <h5>About the author</h5>
+    <h3>Support development</h3>
+    <p>You can support this project by <strong>making a donation</strong>, providing feedback, or actively contributing to the source code development.</p>
+    <ul>
+        <li>Donate with <em>PayPal</em>: <a href="https://paypal.me/claudiodangelis/10usd?rd=donate">paypal.me/claudiodangelis</a> </li>
+        <li>Donate with <em>Buy Me A Coffee</em>: <a href="https://www.buymeacoffee.com/claudiodangelis" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a></li>
+        <li>Contribute to source code: <a href="https://github.com/claudiodangelis/popup-for-keep">github.com/claudiodangelis/popup-for-keep</a></li>
+    </ul>
+    <hr>
+    <h4>About the author</h4>
     <p>Hi, I'm Claudio, thanks for using my little extension!</p>
     <p>If you have any <b>feedback</b> please feel free to reach out to me.</p>
     <p>Some useful links to report bug, request features or just to say hi:</p>
