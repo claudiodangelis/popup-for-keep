@@ -465,8 +465,9 @@ function createAccountFromFragment(html, index) {
         // If info is null it means that the account is a Google Suite account
         if (info === null) {
             // Check if there is the element we're looking for
-            let node = infoNode.querySelector('a[aria-label*="Google Account"], a[aria-label*="Google-account"]');
-            if (node) {
+            const selector = 'a.gb_B.gb_Da.gb_g, .gb_D.gb_Oa.gb_i, a[aria-label*="Google Account"], a[aria-label*="Google-account"]';
+            let node = infoNode.querySelector(selector);
+            if (node !== null) {
                 info = node.getAttribute('aria-label');
             }
         }
