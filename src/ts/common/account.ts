@@ -37,10 +37,13 @@ function createAccountFromFragment(html: string, index: number): Promise<Account
         // If info is null it means that the account is a Google Suite account
         if (info === null) {
             // Check if there is the element we're looking for
-            let node = infoNode.querySelector('a.gb_B.gb_Da.gb_g')
-            if (node) {
-                info = node.getAttribute('aria-label')
-            }
+            const possibleSelectors = ['a.gb_B.gb_Da.gb_g', '.gb_D.gb_Oa.gb_i']
+            possibleSelectors.forEach(selector => {
+                let node = infoNode.querySelector(selector)
+                if (node !== null) {
+                    info = node.getAttribute('aria-label')
+                }
+            })
         }
         account.user = info
         l.info('discovery', `parsing email from: ${info}`)
