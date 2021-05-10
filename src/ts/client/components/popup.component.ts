@@ -74,7 +74,8 @@ export class PopupComponent {
                     '*://*/*'
                 ],
                 types: [
-                    'sub_frame'
+                    'sub_frame',
+                    'main_frame',
                 ]
             },
             [
