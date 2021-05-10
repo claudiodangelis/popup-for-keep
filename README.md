@@ -46,5 +46,5 @@ claudiodangelis@gmail.com
 This software is distributed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0), and it's built on top of:
 
 *   [Angular.io](https://angular.io)
-*   [TypeScript](https://typescriptlang)
+*   [TypeScript](https://www.typescriptlang.org/)
 *   [Bootstrap](https://getbootstrap.com)
