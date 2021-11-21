@@ -475,7 +475,9 @@ function createAccountFromFragment(html, index) {
         l.info('discovery', `parsing email from: ${info}`);
         let emailMatches = info.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
         if (emailMatches.length > 0) {
-            account.email = emailMatches[0];
+            // TODO: This is a quick fix, URI components should be properly
+            // decoded. 
+            account.email = emailMatches[0].replace('x22', '');
         }
         var imageNode = doc.querySelector(`a[href$="?authuser=${index}"] > img`);
         if (imageNode !== null) {
